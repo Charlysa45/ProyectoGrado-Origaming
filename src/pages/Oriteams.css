@@ -1,0 +1,32 @@
+@font-face {
+    font-family: origami;
+    src: url(../fonts/Origami.ttf);
+}
+.team-card{
+    background-color: aqua;
+}
+
+.img-team{
+    width: 175px;
+    max-height: 180px;
+    border-radius: 25%;
+}
+.card-img-overlay-1, .card-img-overlay-7{
+    background-color: orange;
+}
+.card-img-overlay-2{
+    background-color: blueviolet;
+}
+.card-img-overlay-3{
+    background-color: cyan;
+}
+.card-img-overlay-5{
+    background-color: yellow;
+}
+.card-img-overlay-6{
+    background-color: #810000;
+}
+.card-img-overlay-8{
+    background-color: #17ac86;
+}
+

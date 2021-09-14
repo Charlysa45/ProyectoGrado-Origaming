@@ -1,0 +1,29 @@
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .card-title{
+    color:black;
+    text-decoration:none;
+}
+
+  .card-title:hover{
+      color: rgba(152,11,122,1);
+      text-decoration:none;
+  }
+  .card{
+    height: 100%;
+  }
+  .card-img-top{
+      height: 100%;
+  }
