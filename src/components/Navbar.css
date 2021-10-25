@@ -12,3 +12,21 @@
     width: 100%;
     height: 20%;
 }
+
+.register-body{
+    width: 22rem;
+}
+
+.user-button{
+    background: none !important;
+    border-color: transparent !important;
+}
+.user-button:focus{
+    background: none !important;
+    border-color: transparent !important;
+}
+
+.user-avatar{
+    width: 3rem;
+    height: 3rem;
+}

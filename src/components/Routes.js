@@ -7,20 +7,30 @@ import Noticias from '../pages/News'
 import Articulo from '../pages/Article'
 import Juegos from '../pages/Games'
 import Oriteams from '../pages/Oriteams'
+import Profile from '../pages/Profile.js'
+import {AvatarProvider} from './context/AvatarContext'
+import GamePage from '../pages/GamePage.js'
+import MatchPage from '../pages/MatchPage.js'
 
-function Routes() {
+const Routes = () => {
+
     return (
         <div>
             <Router>
-            <Navbar/>
-                <Switch>
-                    <Route exact path="/" component={Home}></Route>
-                    <Route exact path="/login" component={Login}></Route>
-                    <Route exact path="/news" component={Noticias}></Route>
-                    <Route exact path="/games" component={Juegos}></Route>
-                    <Route exact path="/Oriteams" component={Oriteams}></Route>
-                    <Route exact path="/news/articleXboxGamescome" component={Articulo}></Route>
-                </Switch>
+                <AvatarProvider>
+                    <Navbar/>
+                    <Switch>
+                        <Route exact path="/" component={Home}></Route>
+                        <Route exact path="/login" component={Login}></Route>
+                        {/* <Route exact path="/news" component={Noticias}></Route> */}
+                        <Route exact path="/games" component={Juegos}></Route>
+                        <Route path="/games/:GameTag" component={GamePage}></Route>
+                        <Route path="/match/:MatchId" component={MatchPage}></Route>
+                        <Route exact path="/Oriteams" component={Oriteams}></Route>
+                        {/* <Route exact path="/news/articleXboxGamescome" component={Articulo}></Route> */}
+                        <Route path="/perfil/:userInfo" component={Profile}></Route>
+                    </Switch>
+                </AvatarProvider>
             </Router>
         </div>
     )

@@ -105,7 +105,7 @@ function Home() {
                     <div className="col-md-9">
                         <div className="title-spacing">
                             <div className="section-title-games">
-                                <h1 className="ms-3 me-3 mt-1 mb-2 fs-2"><Link to="/games" className="link">Videojuegos</Link></h1>
+                                <h1 className="ms-3 me-3 mt-1 mb-2 fs-2"><Link to="/games" className="link">Encuentros</Link></h1>
                             </div>
                         </div>
                     <hr className="barra-games rounded-pill"/>

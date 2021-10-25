@@ -7,7 +7,6 @@ function News() {
     return (
         <div className="App">
 
-
   <div class="album py-5 bg-light">
     <div class="container py-3">
     <h1>Novedades</h1>
@@ -15,7 +14,7 @@ function News() {
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
             <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgHaloNews} alt="" />
               </a>
@@ -29,7 +28,7 @@ function News() {
           </div>
         </div>
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
             <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgRRNews} alt="" />
               </a>
@@ -43,7 +42,7 @@ function News() {
           </div>
         </div>
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
           <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgGamesCome} alt="" />
               </a>
@@ -58,7 +57,7 @@ function News() {
         </div>
 
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
           <Link to="/news/articleXboxGamescome">
                 <img className="card-img-top" src={Imagenes.ImgGCXboxNews} alt="" />
               </Link>
@@ -72,7 +71,7 @@ function News() {
           </div>
         </div>
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
               <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgB4BNews} alt="" />
               </a>
@@ -87,7 +86,7 @@ function News() {
           </div>
         </div>
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
           <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgRLNews} alt="" />
               </a>
@@ -102,7 +101,7 @@ function News() {
         </div>
 
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
           <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgFallGuysNews} alt="" />
               </a>
@@ -116,7 +115,7 @@ function News() {
           </div>
         </div>
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
           <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgPkmnNews} alt="" />
               </a>
@@ -130,7 +129,7 @@ function News() {
           </div>
         </div>
         <div class="col">
-          <div class="card shadow-sm">
+          <div class="card-news shadow-sm">
           <a href="#">
                 <img className="card-img-top" src={Imagenes.ImgCODW} alt="" />
               </a>

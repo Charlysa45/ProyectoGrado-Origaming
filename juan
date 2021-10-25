@@ -1,0 +1,10 @@
+zone "itzgeek.local" IN { 
+     
+      type master; 
+ 
+     file "/etc/bind/forward.itzgeek.local.db"; 
+ 
+     allow-update { none; }; 
+ 
+};
+

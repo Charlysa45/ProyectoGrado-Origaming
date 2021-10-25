@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Imagenes from '../components/Imagenes'
 import Comments from '../components/Comments'
 import './Article.css'
 import {AiOutlineHeart, AiOutlineShareAlt} from 'react-icons/ai'
 import {FaRegCommentDots} from 'react-icons/fa'
-import CrudApi from '../components/CrudApi'
+import AvatarContext from '../components/context/AvatarContext'
 
 function Article() {
+
+    const {profile, avatarPrev} = useContext(AvatarContext)
     return (
         <div className="App">
             <header className="news-header">
@@ -40,8 +42,6 @@ function Article() {
 
                             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt natus maxime nihil quisquam. Quidem, odit explicabo? Vero maxime cum placeat doloribus nihil delectus maiores impedit sint, dignissimos modi, minima saepe labore harum dolores. Quia reprehenderit earum, ut suscipit cum consectetur maxime quasi praesentium eveniet fugit dignissimos, architecto beatae eum corporis eaque placeat provident vel incidunt quod numquam neque dolor ex. Aliquam itaque impedit sint molestiae ab? Esse ea excepturi sit! Numquam alias harum consequatur aliquid? Fugiat eligendi facilis voluptatem, assumenda sint aspernatur. In deleniti ad perspiciatis, est quibusdam ea provident excepturi quae distinctio atque amet reiciendis praesentium expedita nobis, maiores dignissimos pariatur ipsa aliquam voluptate vitae at a quasi commodi. Atque delectus quas mollitia pariatur laborum autem unde magnam possimus.</p>
                         </div>
-                        <CrudApi/>
-                        <hr />
                         <div className="reaction-icons">
                             <div className="row justify-content-start">
                                 <div className="col-1">
@@ -65,7 +65,11 @@ function Article() {
                         <div className="flex-row py-4 align-items-start d-flex">
                                 <div className="p-2">
                                     <div className="avatar-user">
-                                        <img src={Imagenes.LogoQueso} className="avatar-icon" />
+                                        {!avatarPrev ?
+                                            <img src={!profile ? '' : `http://localhost:3001/${profile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="avatar-icon"/>
+                                                :
+                                            <img src={avatarPrev} alt="" className="avatar-icon" />
+                                        }
                                     </div>
                                 </div>
                                 <div className="col-9 p-2 w-75">

@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.banner-field{
+    position: relative;
+    z-index: 0;
+    width: 1270px;
+    max-height: 380px;
+}
+
+.banner-img{
+    width: 1270px;
+    max-height: 645px;
+}
+
+.banner-field::after{
+    display:block;
+    position: absolute;
+    z-index: 1;
+    content: '';
+    width: 100%;
+    height: 100%;
+    bottom: 1%;
+    background: linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.4) 80%);
+}
+
+.edit-banner-button{
+    position: relative;
+    z-index: 1;
+    bottom: 100px;
+    right: 100px;
+}
+
+.profile-body{
+    position: relative;
+    z-index: 1;
+    bottom: 2.7rem;
+}
+
+.avatar-profile-user{
+    width: 250px;
+    height: 250px;
+    border: 25px;
+}
+
+.edit-button{
+    position: relative;
+    z-index: 1;
+    width: 1270px;
+    bottom: 64px;
+    right: 20px;
+}
+
+.avatar-card{
+    /* display: flex; */
+    position: relative;
+    z-index: 1;
+    bottom: 4rem;
+    text-align: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.profile-card{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    position: relative;
+    right: 1.5rem;
+}
+
+.net-card{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    position: relative;
+    right: 1.5rem;
+}
+
+#net-input{
+    font-family: 'Roboto', sans-serif;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #212529;
+    outline-width: 50px;
+}
+
+.card-text{
+    font-family: 'Roboto', sans-serif;
+}
+
+#country-select{
+    font-family: 'Roboto', sans-serif;
+    background-color: #212529;
+    outline-width: 50px;
+}
+
+#favGame-select{
+    font-family: 'Roboto', sans-serif;
+    background-color: #212529;
+    outline-width: 50px;
+}
+
+.avatar-prev{
+    width: 300px;
+    height: 300px;
+}
+
+.avatarPrev{
+    align-items: center;
+}
+
+.newMatch-user-card{
+    width: 270px;
+    height: 116px;
+    border: solid;
+    border-width: 4px;
+    border-radius: 25px;
+    /* border-color: #003083; */
+}
+

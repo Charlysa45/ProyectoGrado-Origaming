@@ -1,0 +1,21 @@
+.match-body{
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.chat-field{
+    min-height: 300px;
+    max-height: 300px;
+    overflow: scroll;
+    border: 2px solid #003083;
+    background-color: #fff;
+}
+
+.user-match-img{
+    width: 200px;
+    height: 200px;
+}
+
+.match-user{
+    text-align: center;
+}

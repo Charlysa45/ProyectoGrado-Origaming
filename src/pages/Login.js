@@ -1,85 +1,15 @@
-import React, { useState }from 'react';
+
+import React, { useEffect, useState }from 'react';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 import "./Login.css"
 
-function LoginForm(){
-    return(
-        <div class="card-body p-md-5 mx-md-4 ">
-            <div class="text-center">
-            <h4 class="mt-1 mb-5 pb-1">¡Loguéate!</h4>
-            </div>
-
-            <form>
-                <p>Por favor ingresa tus datos:</p>
-
-                <div class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control"/>
-                    <label class="form-label" for="form2Example11">Nombre de usuario</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" />
-                    <label class="form-label" for="form2Example22">Contraseña</label>
-                </div>
-
-                <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Entra aquí</button>
-                    <div className="d-flex justify-content-center pb-4">
-                    <a class="text-muted" href="#!">¿olvidaste tu contraseña?</a>
-                </div>
-                </div>
-            </form>
-        </div>
-    )
     
-}
+const Login = () => {
 
-function RegisterForm(){
-    return(
-        <div class="card-body p-md-5 mx-md-4 ">
-            <div class="text-center">
-            <h4 class="mt-1 mb-5 pb-1">¡Regístrate!</h4>
-            </div>
+    const [form, setForm] = useState(false);
 
-            <form>
-                <p>Por favor ingresa tus datos:</p>
-
-                <div class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control" placeholder="Con este nombre te conocerán todos en Origaming"/>
-                    <label class="form-label" for="form2Example11">Nombre de Usuario</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control"/>
-                    <label class="form-label" for="form2Example11">Correro Electrónico</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" />
-                    <label class="form-label" for="form2Example22">Contraseña</label>
-                </div>
-
-                <div class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" />
-                    <label class="form-label" for="form2Example22">Confirmar contraseña</label>
-                </div>
-
-
-                <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Entra aquí</button>
-                    <div className="d-flex justify-content-center pb-4">
-                    <a class="text-muted" href="#!">¿olvidaste tu contraseña?</a>
-                </div>
-                </div>
-            </form>
-        </div>
-    )
-}
-
-function Login() {
-
-    const [form, setForm] = useState(true);
-
-    const changeForm = () => setForm(form == false)
+    const changeForm = () => setForm(form == true)
 
     return (
         <section class="background-overlay h-100 gradient-form">
@@ -89,7 +19,7 @@ function Login() {
                 <div class="login-card rounded-3 text-white">
                 <div class="row g-0">
                     <div class="col-lg-6 bg-dark text-light">
-                        {form ? <LoginForm/> : <RegisterForm/>}
+                        <RegisterForm />
                         <div class="d-flex align-items-center justify-content-center pb-4">
                          <p class="mb-0 me-2">¿No tienes una cuenta aún?</p>
                         <button onClick={changeForm} type="button" class="btn btn-light">¡Créate una!</button>

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.card-match-content{
+    font-family: 'Roboto', sans-serif;
+}
+
+.img-match{
+    width: 207px;
+}
+
+.plus-icon{
+    width: 207px;
+}
