@@ -11,26 +11,29 @@ import Profile from '../pages/Profile.js'
 import {AvatarProvider} from './context/AvatarContext'
 import GamePage from '../pages/GamePage.js'
 import MatchPage from '../pages/MatchPage.js'
+import { ApiProvider } from './context/ApiContext.js'
 
 const Routes = () => {
 
     return (
         <div>
             <Router>
-                <AvatarProvider>
-                    <Navbar/>
-                    <Switch>
-                        <Route exact path="/" component={Home}></Route>
-                        <Route exact path="/login" component={Login}></Route>
-                        {/* <Route exact path="/news" component={Noticias}></Route> */}
-                        <Route exact path="/games" component={Juegos}></Route>
-                        <Route path="/games/:GameTag" component={GamePage}></Route>
-                        <Route path="/match/:MatchId" component={MatchPage}></Route>
-                        <Route exact path="/Oriteams" component={Oriteams}></Route>
-                        {/* <Route exact path="/news/articleXboxGamescome" component={Articulo}></Route> */}
-                        <Route path="/perfil/:userInfo" component={Profile}></Route>
-                    </Switch>
-                </AvatarProvider>
+                <ApiProvider>
+                    <AvatarProvider>
+                        <Navbar/>
+                        <Switch>
+                            <Route exact path="/" component={Home}></Route>
+                            <Route exact path="/login" component={Login}></Route>
+                            {/* <Route exact path="/news" component={Noticias}></Route> */}
+                            <Route exact path="/games" component={Juegos}></Route>
+                            <Route path="/games/:GameTag" component={GamePage}></Route>
+                            <Route path="/match/:MatchId" component={MatchPage}></Route>
+                            {/* <Route exact path="/Oriteams" component={Oriteams}></Route> */}
+                            {/* <Route exact path="/news/articleXboxGamescome" component={Articulo}></Route> */}
+                            <Route path="/perfil/:userInfo" component={Profile}></Route>
+                        </Switch>
+                    </AvatarProvider>
+                </ApiProvider>
             </Router>
         </div>
     )

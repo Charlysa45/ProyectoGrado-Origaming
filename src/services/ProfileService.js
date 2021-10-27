@@ -1,7 +1,7 @@
 import axios from 'axios'
 import FormData from 'form-data'
 
-const baseUrl = 'http://localhost:3001/api'
+const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/api'
 
 const getProfile = async () => {
   const request = axios

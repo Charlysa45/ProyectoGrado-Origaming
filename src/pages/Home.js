@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Imagenes from '../components/Imagenes'
 import './home.css'
 import {Link} from "react-router-dom"
+import MatchCard from '../components/MatchCard'
+
+import ApiContext from '../components/context/ApiContext'
 
 function Home() {
+
+    const {allUsers, allMatches, allGames} = useContext(ApiContext)
+    
     return (
         <div className="App bg-dark bg-gradient text-light">
             <header className="main-header">
@@ -27,77 +33,32 @@ function Home() {
                         <div className="title-spacing">
                             <div className="section-title-news">
                                 <h1 className="ms-3 me-3 mt-1 mb-2 fs-2">
-                                    <Link to='/news' className="link">Novedades</Link>
+                                    <Link to='/news' className="link">Encuentros Recientes</Link>
                                 </h1>
                             </div>
                         </div>
                     <hr className="barra-news rounded-pill"/>
-                        <div className="row ">
-                            <div className="col-md-4">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgRLNews} className="img-newscard" alt="" />
-                                    <div className="info-newscard">
-                                        <h2 className="event-title fs-4 fw-bold"><em>¡La temporada 4 de Rocket League ya está aquí!</em></h2>
-                                        <p className="event-type">Un mapa nuevo, un battle pass renovado, nuevos torneos 2c2 y más</p>
-                                        <small className="text-muted">Nov 12</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4">
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgLolNews} className="img-newscard" alt="" />
-                                    <div className="info-newscard">
-                                        <h2 className="event-title fs-4 fw-bold"><em>¡Hay fecha para la final de los Worlds 2021!</em></h2>
-                                        <p className="event-type">Tendría lugar el 6 de noviembre en Shenzhen, China.</p>
-                                        <small className="text-muted">Nov 12</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgPkmnNews} className="img-newscard" alt="" />
-                                    <div className="info-newscard">
-                                        <h2 className="event-title fs-4 fw-bold"><em>¡Así es el nuevo y divertido MOBA de Pokémon!</em></h2>
-                                        <p className="event-type">Duelos por equipos... ¡conformados por Pokémon de todo tipo!</p>
-                                        <small className="text-muted">Nov 12</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgFallGuysNews} className="img-newscard" alt="" />
-                                    <div className="info-newscard">
-                                        <h2 className="event-title fs-4 fw-bold"><em>¡Fall Guys revive y su número de jugadores asciende como la espuma!</em></h2>
-                                        <p className="event-type">Llegó la temporada 5 de los maníes saltarines y le dio un aire totalmente fresco al juego.</p>
-                                        <small className="text-muted">Nov 12</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgB4BNews} className="img-newscard" alt="" />
-                                    <div className="info-newscard">
-                                        <h2 className="event-title fs-4 fw-bold"><em>¡La Beta Abierta de Back 4 Blood ya está dispoible!</em></h2>
-                                        <p className="event-type">Hasta el 16 de agosto los jugadores podrán probar al "sucesor espirituaL" de Left 4 Dead de forma gratuita.</p>
-                                        <small className="text-muted">Nov 12</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgCODW} className="img-newscard" alt="" />
-                                    <div className="info-newscard">
-                                        <h2 className="event-title fs-4 fw-bold"><em>Hay retrasos en el lanzamiento de la Temporada 5 de COD: Warzone</em></h2>
-                                        <p className="event-type">Habrá que esperar 24 horas más para disfrutar de la nueva temporada de este battle royale</p>
-                                        <small className="text-muted">Nov 12</small>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        </div>
+                        <div className="home-matches">
+                            {allMatches &&
+                                allMatches.map(res => 
+                                                <MatchCard 
+                                                    key={res.id} 
+                                                    date={res.date} 
+                                                    title={res.title} 
+                                                    descrip={res.description} 
+                                                    avatar={res.user.avatar}
+                                                    id={res.user.id} 
+                                                    matchId={res.id}
+                                                    gameChoosed={res.gameChoosed}
+                                                    theme={'bg-dark'}
+                                                />   
+                                            )
+                            }
                         </div>
                     </div>
-                    </section>
+                </div>
+            </div>
+            </section>
 
             <section className="cards pt-3 pb-5">
             <div className="container">
@@ -110,117 +71,18 @@ function Home() {
                         </div>
                     <hr className="barra-games rounded-pill"/>
                         <div className="row ">
-                            <div className="col-md-4">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgRL} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3">Rocket League</h2>
-                                        <p className="event-type">Torneo 3vs3</p>
+                            {allGames &&
+                                allGames.map(res => 
+                                    <div key={res.id} className="col-md-4 mb-4">  
+                                        <Link to={`/games/${res.title}`} className="tarjeta">
+                                            <img src={`https://sheltered-depths-45281.herokuapp.com/${res.gameImg.replace("public/","")}`} className="img-card" alt="" />
+                                            <div className="info-card">
+                                                <h2 className="event-title-games fs-3">{res.title}</h2>
+                                            </div>
+                                        </Link>
                                     </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4">
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgLoL} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>League of Legends</em></h2>
-                                        <p className="event-type">Clasificatoria, Reclutamiento, Aram</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgOvrwatch} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Overwatch</em></h2>
-                                        <p className="event-type">Clasificatorio, Informal</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgFallGuys} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Fall Guys: Ultimate Knockout</em></h2>
-                                        <p className="event-type">Escuadrones, Trios, Privadas</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgAmogus} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Among Us</em></h2>
-                                        <p className="event-type">Partidas de 5, 7 y 10 jugadores</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgPaladins} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Paladins</em></h2>
-                                        <p className="event-type">Asedio, Batalla a muerte, Competitivo</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgGarPho} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Gartic Phone</em></h2>
-                                        <p className="event-type">Normal, Imitación, Rompehielos</p>
-                                        <p className="text-muted">Nov 12</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgF1} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>F1 2021</em></h2>
-                                        <p className="event-type">Carrera Informal, Torneo</p>
-                                        <p className="text-muted">Nov 12</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgCODW} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>COD: Warzone</em></h2>
-                                        <p className="event-type">Battle Royale, Botín, Dúos</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgFnite} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Fortnite</em></h2>
-                                        <p className="event-type">Creativo, Parkour, Batalla Campal</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgRainbSS} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Rainbow Six Siege</em></h2>
-                                        <p className="event-type">Bombas, Asegurar la Zona</p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div className="col-md-4 pt-3">  
-                                <a href="#" className="tarjeta">
-                                    <img src={Imagenes.ImgFreeFire} className="img-card" alt="" />
-                                    <div className="info-card">
-                                        <h2 className="event-title-games fs-3"><em>Free Fire</em></h2>
-                                        <p className="event-type">Clasificatoria, Clásico</p>
-                                        <p className="text-muted">Nov 12</p>
-                                    </div>
-                                </a>
-                            </div>
+                                    )
+                            }
                         </div>
                     </div>
 

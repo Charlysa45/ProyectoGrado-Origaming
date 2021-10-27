@@ -67,7 +67,7 @@ const UserMatchCard = ({date, title, gameChoosed, descrip}) => {
                 <div className="row">
                     <div className="col-3 d-flex align-items-center">
                         <div className="match-card">
-                            <img src={!gameImage ? '' : `http://localhost:3001/${gameImage.gameImg.replace("public/","")}`} alt="" style={borderStyles} className="img-match"/>
+                            <img src={!gameImage ? '' : `https://sheltered-depths-45281.herokuapp.com/${gameImage.gameImg.replace("public/","")}`} alt="" style={borderStyles} className="img-match"/>
                         </div>
                     </div>
                     <div className="col-9 px-0">

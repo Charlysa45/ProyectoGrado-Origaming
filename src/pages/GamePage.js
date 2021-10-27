@@ -11,7 +11,7 @@ import MatchCard from '../components/MatchCard'
 
 const GamePage = () => {
 
-    const baseUrl = 'http://localhost:3001/'
+    const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/'
 
     const {GameTag} = useParams()
 
@@ -80,6 +80,13 @@ const GamePage = () => {
         <div>
             <div className="bg-white text-dark py-5">
                 <div className="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><Link to="/" style={{textDecoration:'none', color:'purple'}}>Inicio</Link></li>
+                        <li class="breadcrumb-item"><Link to="/games" style={{textDecoration:'none', color:'purple'}}>Encuentros</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">{title}</li>
+                    </ol>
+                </nav>
                     <div className="ImgGame-field">
                         <img src={!game ? '' : `${baseUrl}/${game.gameImg.replace("public/", "")}`} alt="" className="game-banner"/>
                     </div>
@@ -150,7 +157,7 @@ const GamePage = () => {
                                             descrip={res.description} 
                                             id={res.user} 
                                             matchId={res.id}
-                                            gameTag={GameTag}
+                                            theme={'bg-white'}
                                         />   
                                     )
                                 }   

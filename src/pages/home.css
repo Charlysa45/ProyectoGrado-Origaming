@@ -1,7 +1,11 @@
 @import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 body{
     font-family: 'Oswald', sans-serif !important;
+}
+.alt-font{
+    font-family: 'Roboto', sans-serif;
 }
 
 .main-header{
@@ -30,6 +34,13 @@ body{
 }
 .link:hover{
   color: rgb(189, 185, 185);
+}
+
+.home-matches{
+    min-height: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
+    border: 3px solid rgba(152,11,122,1);
 }
 
 .section-title-games{

@@ -12,6 +12,7 @@ import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
 import AvatarContext from './context/AvatarContext'
 import AuthContext from './context/AuthContext'
+import ApiContext from './context/ApiContext'
 
 function Navbar() {
 
@@ -19,6 +20,20 @@ function Navbar() {
 
     const {auth, dropdown, handleDropdown, logout, changeForm, handleChangeForm} = useContext(AuthContext)
     const {userProfile, avatarPrev} = useContext(AvatarContext)
+    const {allUsers, allGames, allMatches} = useContext(ApiContext)
+    const [busqueda, setBusqueda] = useState('')
+    const [resultados, setResultados] = useState([])
+
+    const filtrado = (e) => {
+      setBusqueda(e.target.value)
+      const resultsUsers = allUsers.filter(res => {
+          if(res.username.toString().toLowerCase().includes(busqueda.toLowerCase())){
+              return res;
+          }
+      })
+      console.log(resultsUsers)
+      setResultados(resultsUsers)
+    }
 
     return (
         <nav class="navbar navbar-expand-lg navbar-dark">
@@ -41,9 +56,9 @@ function Navbar() {
                 <li class="nav-item">
                     <Link to="/games" className="nav-link">Encuentros</Link>
                 </li>
-                <li class="nav-item">
+                {/* <li class="nav-item">
                     <Link to="/Oriteams" className="nav-link">OriTeams</Link>
-                </li>
+                </li> */}
                 {auth
                     ?
                     <li class="user-card mx-2">
@@ -51,7 +66,7 @@ function Navbar() {
                             <Dropdown isOpen={dropdown} toggle={handleDropdown}>
                                 <DropdownToggle color="primary" className="user-button">
                                     {!avatarPrev ?
-                                        <img src={!userProfile ? '' : `http://localhost:3001/${userProfile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="user-avatar rounded-circle me-2" />
+                                        <img src={!userProfile ? '' : `https://sheltered-depths-45281.herokuapp.com/${userProfile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="user-avatar rounded-circle me-2" />
                                             :
                                         <img src={avatarPrev} alt="" className="user-avatar rounded-circle me-2"/>
                                     }
@@ -96,10 +111,51 @@ function Navbar() {
                     </li>
                 }
             </ul>
-            {/* <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search"></input>
+            <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Buscar" onChange={filtrado} value={busqueda}></input>
         <button class="btn btn-dark" type="submit">Buscar</button>
-        </form> */}
+        <div className="search-results">
+            {busqueda &&
+                <ul class="list-group">
+                    {!resultados.length ? 
+                        <li class="list-group-item">
+                        <div className="user-result d-flex justify-content-center align-items-center">
+                            <p className="text-muted m-0">Sin resultados :'(</p>
+                        </div>
+                    </li>
+                    :
+                    resultados.map(res => 
+                        <li key={res.id} class="list-group-item">
+                            <div className="user-result row">
+                                <div className="user-result-img col-3">
+                                    <Link to={`/perfil/${res.username}`} onClick={() => setBusqueda('')}>
+                                        <img 
+                                        src={`https://sheltered-depths-45281.herokuapp.com/${res.avatar.map(resp => resp.avatar.replace("public/",""))}`} 
+                                        alt="" style={{width:'70px', borderRadius: '20px'}}/>
+                                    </Link>
+                                </div>
+                                <div className="user-result-info col-9">
+                                    <Link to={`/perfil/${res.username}`} onClick={() => setBusqueda('')} style={{color:'purple', textDecoration:'none'}}>
+                                        <p className="m-0" style={{fontSize: '20px'}}>{res.username}</p>
+                                    </Link>
+                                    <p className="m-0 d-flex">
+                                        <p className="m-0" style={{fontSize: '15px'}}>País:</p>&nbsp; 
+                                        <p className="m-0 alt-font">{res.profile.map(res => res.country)}</p>
+                                    </p>
+                                    <p className="m-0 d-flex">
+                                        <p className="m-0" style={{fontSize: '15px'}}>Juego Favorito:</p>&nbsp;   
+                                        <p className="m-0 alt-font">{res.profile.map(res => res.favGame)}</p>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        )
+                    }
+                    
+                </ul>
+            }
+        </div>
+        </form>
             </div>
         </div>
         </nav>

@@ -9,6 +9,12 @@ function Games() {
         <div className="App bg-light py-5">
             
             <div className="container py-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><Link to="/" style={{textDecoration:'none', color:'purple'}}>Inicio</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">Encuentros</li>
+                    </ol>
+                </nav>
                 <h1>Encuentros</h1>
                 <hr className="barra-games rounded-pill"/>
                 <div className="gamecards">

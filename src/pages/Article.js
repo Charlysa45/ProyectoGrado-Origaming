@@ -66,7 +66,7 @@ function Article() {
                                 <div className="p-2">
                                     <div className="avatar-user">
                                         {!avatarPrev ?
-                                            <img src={!profile ? '' : `http://localhost:3001/${profile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="avatar-icon"/>
+                                            <img src={!profile ? '' : `https://sheltered-depths-45281.herokuapp.com/${profile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="avatar-icon"/>
                                                 :
                                             <img src={avatarPrev} alt="" className="avatar-icon" />
                                         }

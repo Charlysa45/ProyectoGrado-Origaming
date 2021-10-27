@@ -6,7 +6,7 @@ import AuthContext from '../components/context/AuthContext'
 import GameService from '../services/GameService'
 import './MatchPage.css'
 
-let socketio = io('//localhost:3001', 
+let socketio = io('//sheltered-depths-45281.herokuapp.com', 
     {  
         withCredentials: true,  
         extraHeaders: { "chat-header": "abcd" }
@@ -27,6 +27,7 @@ const MatchPage = () => {
         GameService.getSingleMatch(MatchId)
         .then(res => {
             setMatch(res)
+            console.log(res.user)
             GameService.getAvatar(res.user.avatar)
             .then(resp => setAvatar(resp))
         })
@@ -66,7 +67,13 @@ const MatchPage = () => {
     return (
         <div>
             <div className="bg-light">
-                <div className="match-body container">
+                <div className="match-body container" style={{paddingBottom: '15rem'}}>
+                <nav aria-label="breadcrumb">   
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><Link to="/" style={{textDecoration:'none', color:'purple'}}>Inicio</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">Encuentros</li>
+                    </ol>
+                </nav>
                     <div className="row">
                         <div className="match-info col-6">
                             <div className="match-title">
@@ -76,7 +83,7 @@ const MatchPage = () => {
                                 <p>{!match ? '' : match.description}</p>
                             </div>
                             <div className="match-user">
-                                <img src={!avatar ? '' : `http://localhost:3001/${avatar.avatar.replace("public/","")}`} alt="" className="user-match-img rounded-circle m-3"/>
+                                <img src={!avatar ? '' : `https://sheltered-depths-45281.herokuapp.com/${avatar.avatar.replace("public/","")}`} alt="" className="user-match-img rounded-circle m-3"/>
                                 <p className="fs-5 mt-4">
                                     Encuentro realizado por: <Link to={`/perfil/${!match.user ? '#' : match.user.username}`}>
                                                                 {!match.user ? '' : match.user.username}
@@ -96,7 +103,7 @@ const MatchPage = () => {
                                 </div>
                             <form onSubmit={submit}>
                                 <div className="resp-field d-flex">
-                                <input type="text" className="form-control" value={mensaje} onChange={e => setMensaje(e.target.value)} style={{width: '35rem'}} />
+                                <input type="text" className="form-control" value={mensaje} onChange={e => setMensaje(e.target.value)} style={{width: '36rem'}} />
                                     <button className="btn btn-primary">Enviar</button>
                                 </div>
                             </form>

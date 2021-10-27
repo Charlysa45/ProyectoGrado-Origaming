@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = 'http://localhost:3001/api'
+const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/api'
 
 const getGame = async () => {
     const request = axios
@@ -13,6 +13,13 @@ const getMatches = async (GameId) => {
   const request = axios
   return request
   .get(`${baseUrl}/games/${GameId}`)
+  .then(response => response.data)
+}
+
+const getGlobalMatches = async () => {
+  const request = axios
+  return request
+  .get(`${baseUrl}/matches`)
   .then(response => response.data)
 }
 
@@ -41,4 +48,4 @@ const makeGame = async ({token},newGame) => {
   return request.then(response => response.data).catch(err => console.error(err))
 }
 
-export default {getGame, getMatches,getSingleMatch, getAvatar, makeGame}  
+export default {getGame, getMatches, getGlobalMatches, getSingleMatch, getAvatar, makeGame}  

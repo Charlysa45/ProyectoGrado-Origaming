@@ -17,6 +17,9 @@ const Profile = () => {
 
     const {updateAvatar, avatarPrev, processAvatarImage, avatarEdit, cancelUpdateAvatar} = useContext(AvatarContext)
 
+    const {username} = JSON.parse(window.localStorage.getItem('loggedUserOnApp'))
+    
+
     const {profiles} = useProfiles()
     const {userInfo} = useParams()
     
@@ -40,9 +43,6 @@ const Profile = () => {
            setUserProfile(usrProfile)
         }
     }, [profiles])
-
-
-
 
     const handleEdit = () => {
         setEdit(!edit)
@@ -154,7 +154,7 @@ const Profile = () => {
             <div className="container">
                 <div className="banner-field">
                     {!bannerPrev ?
-                        <img src={!userProfile ? '' : `http://localhost:3001/${userProfile.bannerImg.map(res => res.bannerImg.replace("public/",""))}`} alt="" className="banner-img"/>
+                        <img src={!userProfile ? '' : `https://sheltered-depths-45281.herokuapp.com/${userProfile.bannerImg.map(res => res.bannerImg.replace("public/",""))}`} alt="" className="banner-img"/>
                         :
                         <img src={bannerPrev} alt="" className="banner-img" />
                     }   
@@ -170,16 +170,20 @@ const Profile = () => {
                                     </button>
                                 </div>
                                 :
-                                <label class="btn btn-dark custom-file-upload ">
-                                    <input onChange={processBannerImage} type="file" name="bannerImg"/>
-                                    <GoDeviceCamera/> Cambiar Banner
-                                </label>
+                                <>
+                                {userProfile && username === userProfile.username &&
+                                    <label class="btn btn-dark custom-file-upload ">
+                                        <input onChange={processBannerImage} type="file" name="bannerImg"/>
+                                        <GoDeviceCamera/> Cambiar Banner
+                                    </label>
+                                }
+                                </>
                             }
                         </div>
                 <div className="profile-body bg-dark row">
                     <div className="avatar-card col-3">
                         {!avatarPrev ?
-                            <img src={!userProfile ? '' : `http://localhost:3001/${userProfile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark"/>
+                            <img src={!userProfile ? '' : `https://sheltered-depths-45281.herokuapp.com/${userProfile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark"/>
                                 :
                             <img src={avatarPrev} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark" />
                         }
@@ -194,10 +198,14 @@ const Profile = () => {
                                     </button>
                                 </div>
                                         :
-                                <label class="btn btn-light custom-file-upload ">
-                                    <input onChange={(e) => processAvatarImage(e)} type="file" name="avatar"/>
-                                    <GoDeviceCamera/> Cambiar Avatar
-                                </label>
+                                        <>
+                                        {userProfile && username === userProfile.username &&             
+                                            <label class="btn btn-light custom-file-upload ">
+                                                <input onChange={(e) => processAvatarImage(e)} type="file" name="avatar"/>
+                                                <GoDeviceCamera/> Cambiar Avatar
+                                            </label>
+                                        }
+                                        </>
                             }
 
                             {/* <div className="net-card card bg-dark m-4">
@@ -213,7 +221,11 @@ const Profile = () => {
                                     <div className="d-flex card-title-description">
                                        <h2 className="flex-grow-1 bd-highlight ">Descripción </h2>
                                        {!edit ? 
-                                            <button onClick={handleEdit} className="btn text-white fs-4">Editar<AiOutlineEdit/></button>
+                                            <>
+                                            {userProfile && username === userProfile.username &&
+                                                <button onClick={handleEdit} className="btn text-white fs-4">Editar<AiOutlineEdit/></button>
+                                            }
+                                            </>
                                                 :
                                             <>
                                             <button onClick={cancelEdit} className="btn btn-danger text-white fs-4 me-2 mb-2">Cancelar</button>
@@ -296,39 +308,37 @@ const Profile = () => {
                         </div>
                         <div className="profile-card mt-2">
                             <div className="card-content pt-3 pb-5 ps-3 pe-3">
-                            <Router>
                                 <ul class="nav nav-pills">
                                     <li class="nav-item">
-                                        <Link to="/" className="nav-link">Partidas enlistadas</Link>
-                                    </li>
-                                    <li class="nav-item">
-                                        <Link to="/userArticles" className="nav-link">Articulos escritos</Link>
+                                        <h2>Encuentros Creados</h2>
                                     </li>
                                 </ul>
-                                <div className="card p-3 bg-dark">
-                                <button onClick={openModal} className="btn btn-dark p-0">
-                                    <div className="row">
-                                        <div className="col-3 d-flex align-items-center">
-                                            <div className="newMatch-user-card d-flex align-items-center justify-content-center">
-                                                <AiOutlinePlus size={70}/>
+                                {userProfile && username === userProfile.username &&
+                                    <div className="card p-3 bg-dark">
+                                        <button onClick={openModal} className="btn btn-dark p-0">
+                                            <div className="row">
+                                                <div className="col-3 d-flex align-items-center">
+                                                    <div className="newMatch-user-card d-flex align-items-center justify-content-center">
+                                                        <AiOutlinePlus size={70}/>
+                                                    </div>
+                                                </div>
+                                                <div className="col-9 px-0 d-flex align-items-center">
+                                                        <div className="newMatch-title">    
+                                                            <h4>¡Crea una nueva partida y busca amigos para jugar!</h4>
+                                                        </div>    
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-9 px-0 d-flex align-items-center">
-                                            <div className="newMatch-title">    
-                                                <h4>¡Crea una nueva partida y busca amigos para jugar!</h4>
-                                            </div>    
-                                        </div>
-                                    </div>
-                                </button>
-                                <Modal isOpen={isOpenModal} closeModal={closeModal}>
-                                    <MatchForm>
-                                        <div className="form-outline py-4 d-flex justify-content-center">
-                                            <button onClick={closeModal} className="btn btn-danger">Cancelar</button>
-                                            <button type="submit" className="btn btn-success ms-2">Publicar</button>
-                                        </div>
-                                    </MatchForm>
-                                </Modal>
-                            </div> 
+                                        </button>
+                                    <Modal isOpen={isOpenModal} closeModal={closeModal}>
+                                        <MatchForm>
+                                            <div className="form-outline py-4 d-flex justify-content-center">
+                                                <button onClick={closeModal} className="btn btn-danger">Cancelar</button>
+                                                <button type="submit" className="btn btn-success ms-2">Publicar</button>
+                                            </div>
+                                        </MatchForm>
+                                    </Modal>
+                                    </div> 
+                                }
                             {!userProfile ? 
                                 <div>
 
@@ -338,10 +348,6 @@ const Profile = () => {
                                     <UserMatchCard key={res.id} date={res.date} title={res.title} gameChoosed={res.gameChoosed} descrip={res.description}/>
                                     )           
                             }
-                                    <Switch>
-                                        <Route path="/userArticles" component={RegisterForm}></Route>
-                                    </Switch>
-                                </Router>
                             </div>
                         </div>
                     </div>
