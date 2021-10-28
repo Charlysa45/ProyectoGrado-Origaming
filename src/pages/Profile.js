@@ -154,7 +154,7 @@ const Profile = () => {
             <div className="container">
                 <div className="banner-field">
                     {!bannerPrev ?
-                        <img src={!userProfile ? '' : `https://sheltered-depths-45281.herokuapp.com/${userProfile.bannerImg.map(res => res.bannerImg.replace("public/",""))}`} alt="" className="banner-img"/>
+                        <img src={!userProfile ? '' : userProfile.bannerImg.map(res => res.bannerImg)} alt="" className="banner-img"/>
                         :
                         <img src={bannerPrev} alt="" className="banner-img" />
                     }   
@@ -183,7 +183,7 @@ const Profile = () => {
                 <div className="profile-body bg-dark row">
                     <div className="avatar-card col-3">
                         {!avatarPrev ?
-                            <img src={!userProfile ? '' : `https://sheltered-depths-45281.herokuapp.com/${userProfile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark"/>
+                            <img src={!userProfile ? '' : userProfile.avatar.map(res => res.avatar)} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark"/>
                                 :
                             <img src={avatarPrev} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark" />
                         }

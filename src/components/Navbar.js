@@ -66,7 +66,7 @@ function Navbar() {
                             <Dropdown isOpen={dropdown} toggle={handleDropdown}>
                                 <DropdownToggle color="primary" className="user-button">
                                     {!avatarPrev ?
-                                        <img src={!userProfile ? '' : `https://sheltered-depths-45281.herokuapp.com/${userProfile.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" className="user-avatar rounded-circle me-2" />
+                                        <img src={!userProfile ? '' : userProfile.avatar.map(res => res.avatar)} alt="" className="user-avatar rounded-circle me-2" />
                                             :
                                         <img src={avatarPrev} alt="" className="user-avatar rounded-circle me-2"/>
                                     }
@@ -130,7 +130,7 @@ function Navbar() {
                                 <div className="user-result-img col-3">
                                     <Link to={`/perfil/${res.username}`} onClick={() => setBusqueda('')}>
                                         <img 
-                                        src={`https://sheltered-depths-45281.herokuapp.com/${res.avatar.map(resp => resp.avatar.replace("public/",""))}`} 
+                                        src={res.avatar.map(resp => resp.avatar)}
                                         alt="" style={{width:'70px', borderRadius: '20px'}}/>
                                     </Link>
                                 </div>

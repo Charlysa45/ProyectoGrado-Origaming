@@ -51,3 +51,19 @@
     border-radius: 25px;
     /* border-color: #003083; */
 }
+
+@media only screen and (max-width: 1400px){
+    .ImgGame-field{
+        width: 1094px;
+    }
+
+    .game-banner{
+        width: 1115px;
+        max-height: 621px;
+    }
+
+    .game-title{
+        bottom: 141px;
+        left: 141px;
+    }
+}

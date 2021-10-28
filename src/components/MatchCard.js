@@ -59,7 +59,7 @@ const MatchCard = ({date, title, descrip, id, matchId, gameChoosed, theme}) => {
                 <div className="row">
                     <div className="col-2 d-flex align-items-center justify-content-center">
                         <div className="match-card">
-                            <img src={!user ? '' : `https://sheltered-depths-45281.herokuapp.com/${user.avatar.map(res => res.avatar.replace("public/",""))}`} alt="" style={borderStyles} className="img-user-match rounded-circle"/>
+                            <img src={!user ? '' : user.avatar.map(res => res.avatar)} alt="" style={borderStyles} className="img-user-match rounded-circle"/>
                         </div>
                     </div>
                     <div className="col-9 px-0">

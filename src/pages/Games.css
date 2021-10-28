@@ -7,3 +7,17 @@
     color: #003083;
     text-decoration:none;
 }
+
+@media only screen and (max-width: 1400px){
+    .card-text{
+        font-size: 1vw;
+        margin-bottom: 0px;
+    }
+    .card-text > .text-muted{
+        font-size: 1vw;
+        padding-top: 0px;
+    }
+    .img-fluid{
+        height: 100% !important;
+    }
+}

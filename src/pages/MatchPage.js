@@ -2,9 +2,13 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import io from 'socket.io-client'
+import Modal from '../components/Modal'
 import AuthContext from '../components/context/AuthContext'
 import GameService from '../services/GameService'
 import './MatchPage.css'
+import LoginForm from '../components/LoginForm'
+import RegisterForm from '../components/RegisterForm'
+import { useModal } from '../components/hooks/useModal'
 
 let socketio = io('//sheltered-depths-45281.herokuapp.com', 
     {  
@@ -14,7 +18,9 @@ let socketio = io('//sheltered-depths-45281.herokuapp.com',
 
 const MatchPage = () => {
 
-    const {auth} = useContext(AuthContext)
+    const {auth, changeForm, handleChangeForm} = useContext(AuthContext)
+
+    const[isOpenModal, openModal, closeModal] = useModal(false);
 
     const [mensaje, setMensaje] = useState("");
     const [mensajes, setMensajes] = useState([]);
@@ -41,6 +47,8 @@ const MatchPage = () => {
                 matchId: MatchId
             }
             socketio.emit('conectado', matchInfo)
+        }else{
+           openModal()
         }
     }, [MatchId])
 
@@ -57,6 +65,7 @@ const MatchPage = () => {
         diGref.current.scrollIntoView({behavior: 'smooth'})
     })
 
+
     const submit = (e) => {
         e.preventDefault();
 
@@ -68,6 +77,29 @@ const MatchPage = () => {
         <div>
             <div className="bg-light">
                 <div className="match-body container" style={{paddingBottom: '15rem'}}>
+                    {!auth &&
+                        <Modal isOpen={isOpenModal} closeModal={closeModal}>
+                 {!changeForm ?
+                                <div className="d-block">
+                                    <LoginForm>   
+                                    <div className="session-handler mb-5 d-flex justify-content-center text-white">
+                                        <p className="align-middle mb-0">¿No tienes una cuenta aun?</p>
+                                        <button onClick={handleChangeForm} className="btn btn-light ms-2">Registrate</button>
+                                    </div>
+                                    </LoginForm>   
+                                </div>
+                                :
+                                <div className="d-block">
+                                    <RegisterForm>
+                                    <div className="session-handler mb-5 d-flex justify-content-center text-white">
+                                        <p className="align-middle mb-0">¿Ya tienes una cuenta?</p>
+                                        <button onClick={handleChangeForm} className="btn btn-light ms-2">Iniciar Sesión</button>
+                                    </div>
+                                    </RegisterForm>
+                                </div>
+                            }
+            </Modal>
+                    }
                 <nav aria-label="breadcrumb">   
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><Link to="/" style={{textDecoration:'none', color:'purple'}}>Inicio</Link></li>

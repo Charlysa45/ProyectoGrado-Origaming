@@ -11,3 +11,9 @@
 .plus-icon{
     width: 207px;
 }
+
+@media only screen and (max-width: 1400px){
+    .img-match{
+        width: 176px;
+    }
+}

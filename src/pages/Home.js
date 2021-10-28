@@ -70,14 +70,15 @@ function Home() {
                             </div>
                         </div>
                     <hr className="barra-games rounded-pill"/>
-                        <div className="row ">
+                        <div className="row games-field">
                             {allGames &&
                                 allGames.map(res => 
                                     <div key={res.id} className="col-md-4 mb-4">  
                                         <Link to={`/games/${res.title}`} className="tarjeta">
-                                            <img src={`https://sheltered-depths-45281.herokuapp.com/${res.gameImg.replace("public/","")}`} className="img-card" alt="" />
+                                            <img src={`https://sheltered-depths-45281.herokuapp.com/${res.gameImg.replace("public/","")}`} className="img-card" alt="" style={{borderRadius: '10px'}}/>
                                             <div className="info-card">
                                                 <h2 className="event-title-games fs-3">{res.title}</h2>
+                                                <p className="">Encuentros enlistados: {res.matches.length}</p>
                                             </div>
                                         </Link>
                                     </div>

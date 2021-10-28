@@ -123,3 +123,32 @@ input[type="file"] {
     /* border-color: #003083; */
 }
 
+@media only screen and (max-width: 1400px){
+    .banner-field{
+        position: relative;
+        z-index: 0;
+        width: 1092px;
+        max-height: 380px;
+    }
+
+    .banner-img{
+        width: 1092px;
+        max-height: 645px;
+    }
+
+    .edit-button{
+        position: relative;
+        z-index: 1;
+        width: 1092px;
+        bottom: 64px;
+        right: 20px;
+    }
+
+    .avatar-profile-user{
+        width: 230px;
+        height: 230px;
+        border: 25px;
+    }
+    
+}
+
