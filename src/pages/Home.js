@@ -70,10 +70,10 @@ function Home() {
                             </div>
                         </div>
                     <hr className="barra-games rounded-pill"/>
-                        <div className="row games-field">
+                        <div className="row row-cols-3 games-field">
                             {allGames &&
                                 allGames.map(res => 
-                                    <div key={res.id} className="col-md-4 mb-4">  
+                                    <div key={res.id} className="col mb-4">  
                                         <Link to={`/games/${res.title}`} className="tarjeta">
                                             <img src={`https://sheltered-depths-45281.herokuapp.com/${res.gameImg.replace("public/","")}`} className="img-card" alt="" style={{borderRadius: '10px'}}/>
                                             <div className="info-card">
