@@ -12,20 +12,31 @@ const RegisterForm = ({children}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [token, setToken] = useState('')
+    const [user, setUser] = useState('')
 
     const [loading, setLoading] = useState(false);
+    const [confirm, setConfirm] = useState(null);
     const [response, setResponse] = useState(null);
+
+    const [confirmCode, setConfirmCode] = useState(null)
+    const [code, setCode] = useState(null)
+
     const [error, setError] = useState(null)
 
     const [activeForm, setActiveForm] = useState(true);
-
+    
+    
     const handleRegister = async (e) =>{
         e.preventDefault();
+        const confirmCode = Math.round(Math.random()*999999)
+        setConfirmCode(confirmCode)
         
         const newUser = {
             username,
             email,
-            password
+            password,
+            confirmCode
         }
 
         setActiveForm(false) 
@@ -33,35 +44,57 @@ const RegisterForm = ({children}) => {
         try {
             const user = await RegisterService.register(newUser)
             const {token} = user
-            window.localStorage.setItem(
-                'loggedUserOnApp', JSON.stringify(user)
-            )
+            setUser(user)
+            setToken(token)
 
-            RegisterService.newProfile({token}).then(res => {
-                RegisterService.newAvatar({token}).then(res => {
-                    RegisterService.newBanner({token})
-                })
-            })
-            
             setLoading(false)
-            setResponse(true)
-            setTimeout(() => {
-               window.location.reload() 
-            }, 1500);
+            setConfirm(true)
             
-            setUsername('')
-            setEmail('')
-            setPassword('')
-            setConfirmPassword('')
         } catch (error) {
             console.error(error)
             setError(true)
             setLoading(false)
             setActiveForm(true)
         }
-
+        
     }
+    
+    const handleConfirm = async (e) => {
+        e.preventDefault();
 
+        setLoading(true)
+        if(confirmCode === code){
+            try{
+                window.localStorage.setItem(
+                    'loggedUserOnApp', JSON.stringify(user)
+                    )
+                
+                await RegisterService.newProfile({token}).then(res => {
+                    RegisterService.newAvatar({token}).then(res => {
+                        RegisterService.newBanner({token})
+                    })
+                }).catch(err => console.error(err))
+
+                setConfirm(false)
+                setLoading(false)
+                setResponse(true)
+                setTimeout(() => {
+                   window.location.reload() 
+                }, 1500);
+                
+                setUsername('')
+                setEmail('')
+                setPassword('')
+                setConfirmPassword('')
+
+            }catch(err){
+                setError('Oops, algo ha salido mal')
+            }
+        }else{
+            setError('El número no coincide')
+        }
+    }
+    
     return (
         
         <div className="bg-dark text-white">
@@ -109,7 +142,18 @@ const RegisterForm = ({children}) => {
            </div> 
             }
             {loading && <Loader/>} 
-            {response && <h2>¡Has sido registrado exitosamente!</h2>}
+            {confirm &&
+            <div className="container" style={{textAlign: 'center'}}>
+                <h2>¡Ya casi estás, {username}!</h2>
+                <p>A tu correo hemos enviado un código de verificación. Escríbelo a continuación para acceder a Origaming</p>
+                <form onSubmit={handleConfirm} className="d-flex">
+                    <input type="text" name="" id="" placeholder="código de 6 cifras" className="form-control" onChange={e => setCode(parseInt(e.target.value))}/>
+                    <button type="submit" className="btn btn-success">Enviar</button>
+                </form>
+                {error && <small className="ms-2" style={styles}>{error}</small>}
+            </div> 
+            }
+            {response && <h1>¡Usuario creado correctamente!</h1>}
         </div>
     )
 }

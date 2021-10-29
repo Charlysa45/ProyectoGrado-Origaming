@@ -37,4 +37,5 @@ const updateBannerImg = async (id, bannerImg) => {
   return request.then(response => response.data)
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {getProfile, update, updateAvatar, updateBannerImg}

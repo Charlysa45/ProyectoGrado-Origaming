@@ -3,15 +3,17 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import Home from '../pages/Home.js'
 import Login from '../pages/Login.js'
 import Navbar from './Navbar.js'
-import Noticias from '../pages/News'
-import Articulo from '../pages/Article'
+// import Noticias from '../pages/News'
+// import Articulo from '../pages/Article'
 import Juegos from '../pages/Games'
-import Oriteams from '../pages/Oriteams'
+// import Oriteams from '../pages/Oriteams'
 import Profile from '../pages/Profile.js'
 import {AvatarProvider} from './context/AvatarContext'
 import GamePage from '../pages/GamePage.js'
 import MatchPage from '../pages/MatchPage.js'
 import { ApiProvider } from './context/ApiContext.js'
+import Error404 from '../pages/Error404.js'
+// import TeamPage from '../pages/TeamPage.js'
 
 const Routes = () => {
 
@@ -31,6 +33,8 @@ const Routes = () => {
                             {/* <Route exact path="/Oriteams" component={Oriteams}></Route> */}
                             {/* <Route exact path="/news/articleXboxGamescome" component={Articulo}></Route> */}
                             <Route path="/perfil/:userInfo" component={Profile}></Route>
+                            {/* <Route path="/Oriteams/:TeamName" component={TeamPage}></Route> */}
+                            <Route path="*" component={Error404}></Route>
                         </Switch>
                     </AvatarProvider>
                 </ApiProvider>

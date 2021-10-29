@@ -1,18 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import ProfileService from '../services/ProfileService';
 import { AiOutlineEdit, AiOutlinePlus } from 'react-icons/ai'
 import { GoDeviceCamera } from 'react-icons/go'
-import './Profile.css'
-import AvatarContext from '../components/context/AvatarContext';
-import UserMatchCard from '../components/UserMatchCard';
-import { useModal } from '../components/hooks/useModal';
-import Modal from '../components/Modal'
-import MatchForm from '../components/MatchForm';
-import { useParams } from "react-router";
-import { useProfiles } from '../components/hooks/useProfiles';
+import { useParams } from 'react-router'
+import AvatarContext from '../components/context/AvatarContext'
+import { useTeams } from '../components/hooks/useTeams'
+import Imagenes from '../components/Imagenes'
+import UserMatchCard from '../components/UserMatchCard'
+import TeamService from '../services/TeamService'
 
-const Profile = () => {
-
+const TeamPage = () => {
     const {updateAvatar, avatarPrev, processAvatarImage, avatarEdit, cancelUpdateAvatar} = useContext(AvatarContext)
 
     const [userActive, setUserActive] = useState(null)
@@ -27,12 +23,11 @@ const Profile = () => {
         }
     }, [])
 
-    const {profiles} = useProfiles()
-    const {userInfo} = useParams()
+    const {teams} = useTeams()
+    const {TeamName} = useParams()
     
-    const [userProfile, setUserProfile] = useState(null)
+    const [teamProfile, setTeamProfile] = useState(null)
     
-    const[isOpenModal, openModal, closeModal] = useModal(false);
     
     const [edit, setEdit] = useState(false)
     const [bannerEdit, setBannerEdit] = useState(false)
@@ -44,13 +39,13 @@ const Profile = () => {
     const [favGame, setFavGame] = useState('')
 
     useEffect(() => {
-        if (profiles) {
-            const usrProfile = profiles.find(res => res.username === userInfo)
-            console.log(usrProfile)
-           setUserProfile(usrProfile)
+        if (teams) {
+            const teamProfile = teams.find(res => res.teamName === TeamName)
+            console.log(teamProfile)
+           setTeamProfile(teamProfile)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [profiles])
+    }, [teams])
 
     const handleEdit = () => {
         setEdit(!edit)
@@ -119,8 +114,8 @@ const Profile = () => {
     }
 
     const updateProfile = async (e) => {
-        const userId = userProfile.profile.map(res => res.id)
-        await ProfileService.update(
+        const userId = teamProfile.profile.map(res => res.id)
+        await TeamService.update(
             userId,
             NewPf().newPf
         ).then(res => handleEdit())
@@ -129,9 +124,9 @@ const Profile = () => {
 
 
     const updateBannerImg = async (e) => {
-        const bannerId = userProfile.bannerImg.map(res => res.id)
+        const bannerId = teamProfile.bannerImg.map(res => res.id)
         console.log(bannerId)
-        await ProfileService.updateBannerImg(
+        await TeamService.updateBannerImg(
             bannerId,
             bannerImg
         ).then(res => {
@@ -157,12 +152,12 @@ const Profile = () => {
     }
 
     return (
-        <div className="bg-dark text-white py-5">
+        <div className="bg-white text-dark py-5">
             
             <div className="container">
                 <div className="banner-field">
                     {!bannerPrev ?
-                        <img src={!userProfile ? '' : userProfile.bannerImg.map(res => res.bannerImg)} alt="" className="banner-img"/>
+                        <img src={!teamProfile ? '' : teamProfile.teamBannerImg.map(res => res.teamBannerImg)} alt="" className="banner-img"/>
                         :
                         <img src={bannerPrev} alt="" className="banner-img" />
                     }   
@@ -179,8 +174,8 @@ const Profile = () => {
                                 </div>
                                 :
                                 <>
-                                {userProfile && userActive === userProfile.username &&
-                                    <label class="btn btn-dark custom-file-upload ">
+                                {teamProfile && userActive === teamProfile.username &&
+                                    <label class="btn btn-white custom-file-upload ">
                                         <input onChange={processBannerImage} type="file" name="bannerImg"/>
                                         <GoDeviceCamera/> Cambiar Banner
                                     </label>
@@ -188,14 +183,14 @@ const Profile = () => {
                                 </>
                             }
                         </div>
-                <div className="profile-body bg-dark row">
+                <div className="profile-body bg-white row">
                     <div className="avatar-card col-3">
                         {!avatarPrev ?
-                            <img src={!userProfile ? '' : userProfile.avatar.map(res => res.avatar)} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark"/>
+                            <img src={!teamProfile ? '' : teamProfile.teamAvatar.map(res => res.teamAvatar)} alt="" className="avatar-profile-user rounded-circle border border-5 border-white"/>
                                 :
                             <img src={avatarPrev} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark" />
                         }
-                        <h1>{!userProfile ? '' : userProfile.username}</h1>
+                        <h1>{!teamProfile ? '' : teamProfile.username}</h1>
                             {avatarEdit ?
                                 <div className="d-flex justify-content-center">
                                     <button onClick={cancelUpdateAvatar} className="btn btn-danger" type="none" name="bannerImg">
@@ -207,7 +202,7 @@ const Profile = () => {
                                 </div>
                                         :
                                         <>
-                                        {userProfile && userActive === userProfile.username &&             
+                                        {teamProfile && userActive === teamProfile.username &&             
                                             <label class="btn btn-light custom-file-upload ">
                                                 <input onChange={(e) => processAvatarImage(e)} type="file" name="avatar"/>
                                                 <GoDeviceCamera/> Cambiar Avatar
@@ -224,13 +219,13 @@ const Profile = () => {
                             </div> */}
                     </div>
                     <div className="col">
-                        <div className="profile-card bg-dark mt-3">
+                        <div className="profile-card bg-white mt-3">
                                 <div className="card-content pt-3 pb-5 ps-3 pe-3">
                                     <div className="d-flex card-title-description">
-                                       <h2 className="flex-grow-1 bd-highlight ">Descripción </h2>
+                                       <h4 className="flex-grow-1 bd-highlight ">Líder del equipo: </h4>
                                        {!edit ? 
                                             <>
-                                            {userProfile && userActive === userProfile.username &&
+                                            {teamProfile && userActive === teamProfile.username &&
                                                 <button onClick={handleEdit} className="btn text-white fs-4">Editar<AiOutlineEdit/></button>
                                             }
                                             </>
@@ -245,24 +240,24 @@ const Profile = () => {
                                         {!edit ?  
                                         <div>
                                             {!description ? 
-                                                <p>{!userProfile ? '' : userProfile.profile.map(res => res.description)}</p>
+                                                <p>{!teamProfile ? '' : teamProfile.teamLeader.username}</p>
                                                 :                                                
                                                 <p>{description}</p>
                                             }
                                         </div>                       
                                             :
                                             <div className="description-field">
-                                                <textarea id="country-select" className="form-control text-white" defaultValue={userProfile.profile.map(res=>res.description)} onChange={handleDescription}/>
+                                                <textarea id="country-select" className="form-control text-white" defaultValue={teamProfile.profile.map(res=>res.description)} onChange={handleDescription}/>
                                             </div>
                                             
                                         }
                                     </div>
                                     <div className="user-country">
-                                        <p className="fw-bold">País:</p> 
+                                        <p className="fw-bold">Videojuego enfoque: </p> 
                                         {!edit ?
                                         <div>
                                             {!country ? 
-                                                <p className="card-text">{!userProfile ? '' : userProfile.profile.map(res => res.country)}</p>
+                                                <p className="card-text">{!teamProfile ? '' : teamProfile.gameChoosed}</p>
                                                 :                                                
                                                 <p className="card-text">{country}</p>
                                             }
@@ -283,11 +278,11 @@ const Profile = () => {
                                         }
                                     </div>
                                     <div className="favorite-game pt-4">
-                                        <p className="fw-bold">🎮 Juego favorito:</p> 
+                                        <p className="fw-bold">Descripción</p> 
                                         {!edit ?
                                         <div>
                                             {!favGame ? 
-                                                <p className="card-text">{!userProfile ? '' : userProfile.profile.map(res => res.favGame)}</p>
+                                                <p className="card-text">{!teamProfile ? '' : teamProfile.description}</p>
                                                 :                                                
                                                 <p className="card-text">{favGame}</p>
                                             }
@@ -318,12 +313,12 @@ const Profile = () => {
                             <div className="card-content pt-3 pb-5 ps-3 pe-3">
                                 <ul class="nav nav-pills">
                                     <li class="nav-item">
-                                        <h2>Encuentros Creados</h2>
+                                        <h3><AiOutlinePlus size={40}/>Unirme a este equipo</h3>
                                     </li>
                                 </ul>
-                                {userProfile && userActive === userProfile.username &&
+                                {teamProfile && userActive === teamProfile.username &&
                                     <div className="card p-3 bg-dark">
-                                        <button onClick={openModal} className="btn btn-dark p-0">
+                                        <button className="btn btn-dark p-0">
                                             <div className="row">
                                                 <div className="col-3 d-flex align-items-center">
                                                     <div className="newMatch-user-card d-flex align-items-center justify-content-center">
@@ -337,25 +332,17 @@ const Profile = () => {
                                                 </div>
                                             </div>
                                         </button>
-                                    <Modal isOpen={isOpenModal} closeModal={closeModal}>
-                                        <MatchForm>
-                                            <div className="form-outline py-4 d-flex justify-content-center">
-                                                <button onClick={closeModal} className="btn btn-danger">Cancelar</button>
-                                                <button type="submit" className="btn btn-success ms-2">Publicar</button>
-                                            </div>
-                                        </MatchForm>
-                                    </Modal>
                                     </div> 
                                 }
-                            {!userProfile ? 
+                            {/* {!teamProfile ? 
                                 <div>
 
                                 </div>
                                 :
-                                userProfile.matches.map(res => 
+                                teamProfile.matches.map(res => 
                                     <UserMatchCard key={res.id} date={res.date} title={res.title} gameChoosed={res.gameChoosed} descrip={res.description}/>
                                     )           
-                            }
+                            } */}
                             </div>
                         </div>
                     </div>
@@ -365,4 +352,4 @@ const Profile = () => {
     )
 }
 
-export default Profile 
+export default TeamPage

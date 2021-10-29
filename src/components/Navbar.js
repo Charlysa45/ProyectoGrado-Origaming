@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Imagenes from '../components/Imagenes'
 import './Navbar.css'
 import {Link} from "react-router-dom"
@@ -20,12 +20,13 @@ function Navbar() {
 
     const {auth, dropdown, handleDropdown, logout, changeForm, handleChangeForm} = useContext(AuthContext)
     const {userProfile, avatarPrev} = useContext(AvatarContext)
-    const {allUsers, allGames, allMatches} = useContext(ApiContext)
+    const {allUsers} = useContext(ApiContext)
     const [busqueda, setBusqueda] = useState('')
     const [resultados, setResultados] = useState([])
 
     const filtrado = (e) => {
       setBusqueda(e.target.value)
+      // eslint-disable-next-line array-callback-return
       const resultsUsers = allUsers.filter(res => {
           if(res.username.toString().toLowerCase().includes(busqueda.toLowerCase())){
               return res;

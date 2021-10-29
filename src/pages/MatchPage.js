@@ -78,8 +78,8 @@ const MatchPage = () => {
             <div className="bg-light">
                 <div className="match-body container" style={{paddingBottom: '15rem'}}>
                     {!auth &&
-                        <Modal isOpen={isOpenModal} closeModal={closeModal}>
-                 {!changeForm ?
+                    <Modal isOpen={isOpenModal} closeModal={closeModal} auth={auth}>
+                    {!changeForm ?
                                 <div className="d-block">
                                     <LoginForm>   
                                     <div className="session-handler mb-5 d-flex justify-content-center text-white">
@@ -98,7 +98,7 @@ const MatchPage = () => {
                                     </RegisterForm>
                                 </div>
                             }
-            </Modal>
+                     </Modal>
                     }
                 <nav aria-label="breadcrumb">   
                     <ol class="breadcrumb">
@@ -115,7 +115,7 @@ const MatchPage = () => {
                                 <p>{!match ? '' : match.description}</p>
                             </div>
                             <div className="match-user">
-                                <img src={!avatar ? '' : `https://sheltered-depths-45281.herokuapp.com/${avatar.avatar.replace("public/","")}`} alt="" className="user-match-img rounded-circle m-3"/>
+                                <img src={!avatar ? '' : avatar.avatar} alt="" className="user-match-img rounded-circle m-3"/>
                                 <p className="fs-5 mt-4">
                                     Encuentro realizado por: <Link to={`/perfil/${!match.user ? '#' : match.user.username}`}>
                                                                 {!match.user ? '' : match.user.username}

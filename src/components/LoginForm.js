@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import LoginService from '../services/LoginService';
-import { useProfiles } from './hooks/useProfiles';
+
 import Loader from './Loader';
 
 const LoginForm = ({children}) => {

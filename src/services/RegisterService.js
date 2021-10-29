@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/api'
+const baseUrl = 'http://localhost:3001/api'
 
 let defaultDescription = {
   description: "Inserta aquí la descripción",
@@ -10,11 +10,11 @@ let defaultDescription = {
 }
 
 let defaultAvatar = {
-  avatar: "public/uploads/user.png"
+  avatar: "https://res.cloudinary.com/origaming-media/image/upload/v1635464791/user.png"
 }
 
 let defaultBanner = {
-  bannerImg: "public/uploads/banner.jpg"
+  bannerImg: "https://res.cloudinary.com/origaming-media/image/upload/v1635464924/banner.jpg"
 }
 
 const register = async (newUser) => {
@@ -51,4 +51,5 @@ const newBanner = async ({token}) => {
   axios.post(`${baseUrl}/banners`, defaultBanner, config).catch(err => console.error(err))
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default { register, newProfile, newAvatar, newBanner }

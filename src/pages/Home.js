@@ -8,7 +8,7 @@ import ApiContext from '../components/context/ApiContext'
 
 function Home() {
 
-    const {allUsers, allMatches, allGames} = useContext(ApiContext)
+    const {allMatches, allGames} = useContext(ApiContext)
     
     return (
         <div className="App bg-dark bg-gradient text-light">
@@ -18,7 +18,7 @@ function Home() {
                         <div className="row">
                             <div className="header-content text-center">
                                 <img src={Imagenes.AppLogo} alt=""/>
-                                <h3>¡Enterate de las últimas novedades en el mundo de los Esports e interactúa con otros jugadores! </h3>
+                                <h3>¡Crea encuentros de juego y reúnete junto a otros jugadores para jugar!</h3>
                             </div>
                         </div>
                     </div>
@@ -63,14 +63,14 @@ function Home() {
             <section className="cards pt-3 pb-5">
             <div className="container">
                 <div className="row">
-                    <div className="col-md-9">
+                    <div>
                         <div className="title-spacing">
                             <div className="section-title-games">
                                 <h1 className="ms-3 me-3 mt-1 mb-2 fs-2"><Link to="/games" className="link">Encuentros</Link></h1>
                             </div>
                         </div>
                     <hr className="barra-games rounded-pill"/>
-                        <div className="row row-cols-3 games-field">
+                        <div className="row row-cols-4 games-field">
                             {allGames &&
                                 allGames.map(res => 
                                     <div key={res.id} className="col mb-4">  
@@ -88,7 +88,7 @@ function Home() {
                     </div>
 
 
-                    <div className="col-md-3">
+                    {/* <div className="col-md-3">
                     <div className="title-spacing">
                             <div className="section-title-teams">
                                 <h1 className="ms-3 me-3 mt-1 mb-2 fs-2"><Link to="/Oriteams" className="link">OriTeams</Link></h1>
@@ -181,7 +181,7 @@ function Home() {
                             </div>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             </section>

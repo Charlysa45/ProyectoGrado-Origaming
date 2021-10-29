@@ -37,6 +37,7 @@ const GamePage = () => {
                 }
                 
             })
+            .catch(err => console.log(err))
 
             processTitle(Game.title)
         })
