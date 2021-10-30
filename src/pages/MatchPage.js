@@ -114,7 +114,7 @@ const MatchPage = () => {
                                 <p>{!match ? '' : match.description}</p>
                             </div>
                             <div className="match-user">
-                                <img src={!avatar ? '' : `https://sheltered-depths-45281.herokuapp.com/${avatar.avatar.replace("public/","")}`} alt="" className="user-match-img rounded-circle m-3"/>
+                                <img src={!avatar ? '' : avatar.avatar} alt="" className="user-match-img rounded-circle m-3"/>
                                 <p className="fs-5 mt-4">
                                     Encuentro realizado por: <Link to={`/perfil/${!match.user ? '#' : match.user.username}`}>
                                                                 {!match.user ? '' : match.user.username}
