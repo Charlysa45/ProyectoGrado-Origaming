@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api'
+const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/api'
 
 let defaultDescription = {
   description: "Inserta aquí la descripción",

@@ -11,8 +11,7 @@ const getProfile = async () => {
 }
 
 const update = async (id, newObject) => {
-  // console.log(id, newObject)
-  const request = axios.put(`${baseUrl}/profiles/${id}`, newObject)
+  const request = axios.put(`${baseUrl}/teams/${id}`, newObject)
 
   return request.then(response => response.data).catch(err => console.error(err))
 }

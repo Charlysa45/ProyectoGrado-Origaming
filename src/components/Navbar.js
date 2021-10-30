@@ -57,13 +57,14 @@ function Navbar() {
                 <li class="nav-item">
                     <Link to="/games" className="nav-link">Encuentros</Link>
                 </li>
-                {/* <li class="nav-item">
+                <li class="nav-item">
                     <Link to="/Oriteams" className="nav-link">OriTeams</Link>
-                </li> */}
+                </li>
                 {auth
                     ?
                     <li class="user-card mx-2">
-                        
+                            
+                            
                             <Dropdown isOpen={dropdown} toggle={handleDropdown}>
                                 <DropdownToggle color="primary" className="user-button">
                                     {!avatarPrev ?

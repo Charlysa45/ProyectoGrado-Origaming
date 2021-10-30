@@ -1,0 +1,12 @@
+.leader-img{
+    width: 50px;
+    height: 50px;
+    border: 3px solid #01a1bd;
+    border-radius: 50%;
+}
+
+#gameFocus-select #teamDescription-select{
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    outline-width: 50px;
+}

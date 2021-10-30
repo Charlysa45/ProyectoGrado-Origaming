@@ -41,7 +41,7 @@ const AvatarProvider = ({children}) => {
     }
 
     const cancelUpdateAvatar = () => {
-        setAvatarPrev(null)
+        setAvatarPrev(!avatarPrev)
         setAvatarEdit(!avatarEdit)
     }
     
@@ -58,7 +58,7 @@ const AvatarProvider = ({children}) => {
     }
 
     
-    const data = {userProfile, userMatches, handleGamesList, updateAvatar, avatarPrev, processAvatarImage, avatarEdit, cancelUpdateAvatar};
+    const data = {userProfile, userMatches, handleGamesList, updateAvatar, avatarPrev, processAvatarImage, avatarEdit, setAvatarEdit, cancelUpdateAvatar};
 
     return <AvatarContext.Provider value={data}>{children}</AvatarContext.Provider>
 }

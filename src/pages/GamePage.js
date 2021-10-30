@@ -11,7 +11,7 @@ import MatchCard from '../components/MatchCard'
 
 const GamePage = () => {
 
-    const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/'
+    const baseUrl = 'http://localhost:3001/'
 
     const {GameTag} = useParams()
 

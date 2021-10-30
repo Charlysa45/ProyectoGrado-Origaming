@@ -7,26 +7,28 @@ const TeamForm = ({children}) => {
     const [teamName, setTeamName] = useState('');
     const [description, setDescription] = useState('');
 
-    const postMatch = (e) => {
+    const postMatch = async (e) => {
         e.preventDefault();
 
         const user = window.localStorage.getItem('loggedUserOnApp')
         const {token} = JSON.parse(user)
 
         let newTeam ={
-            teamName: teamName,
+            teamName: teamName.replace(" ","-"),
             gameChoosed: gameChoosed,
             description: description
         }
 
-       TeamService.makeTeam({token},newTeam)
+       await TeamService.makeTeam ({token},newTeam)
        .then(res => {
            setDescription('')
            setTeamName('')
+           setGameChoosed('')
            const teamId = res.id
-           TeamService.newTeamAvatar({token}, teamId)
-           .then(res => {
-               TeamService.newTeamBanner({token}, teamId)
+            TeamService.newTeamAvatar({token}, teamId)
+           .then(async(res) => {
+               await TeamService.newTeamBanner({token}, teamId)
+               window.location.reload()
            })
         })
     }

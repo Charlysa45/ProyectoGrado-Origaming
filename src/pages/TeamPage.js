@@ -2,18 +2,22 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AiOutlineEdit, AiOutlinePlus } from 'react-icons/ai'
 import { GoDeviceCamera } from 'react-icons/go'
 import { useParams } from 'react-router'
+import Modal from '../components/Modal'
 import AvatarContext from '../components/context/AvatarContext'
+import { useProfiles } from '../components/hooks/useProfiles'
 import { useTeams } from '../components/hooks/useTeams'
-import Imagenes from '../components/Imagenes'
-import UserMatchCard from '../components/UserMatchCard'
 import TeamService from '../services/TeamService'
+import './TeamPage.css'
+import { useModal } from '../components/hooks/useModal'
 
 const TeamPage = () => {
-    const {updateAvatar, avatarPrev, processAvatarImage, avatarEdit, cancelUpdateAvatar} = useContext(AvatarContext)
+    const {avatarEdit, setAvatarEdit} = useContext(AvatarContext)
+    const [isOpenModal, openModal, closeModal] = useModal(false)
 
     const [userActive, setUserActive] = useState(null)
+    const [avatar, setAvatar] = useState(null)
+    const [avatarPrev, setAvatarPrev] = useState(null)
 
-    
     useEffect(() => {
         let userData = window.localStorage.getItem('loggedUserOnApp')
     
@@ -24,26 +28,36 @@ const TeamPage = () => {
     }, [])
 
     const {teams} = useTeams()
+    const {profiles} = useProfiles()
     const {TeamName} = useParams()
     
     const [teamProfile, setTeamProfile] = useState(null)
-    
+    const [leaderProfile, setleaderProfile] = useState(null)
     
     const [edit, setEdit] = useState(false)
     const [bannerEdit, setBannerEdit] = useState(false)
-    
-    // const [avatar, setAvatar] = useState(null)
+
     const [bannerImg, setBannerImg] = useState(null)
     const [description, setDescription] = useState('')
-    const [country, setCountry] = useState('')
-    const [favGame, setFavGame] = useState('')
+    const [gameChoosed, setGameChoosed] = useState('')
+    const [members, setMembers] = useState([])
 
     useEffect(() => {
-        if (teams) {
             const teamProfile = teams.find(res => res.teamName === TeamName)
-            console.log(teamProfile)
-           setTeamProfile(teamProfile)
-        }
+            const leaderProfile = profiles.find(res => res.username === teamProfile.teamLeader.username)
+            TeamService.getMembers(teamProfile && teamProfile.id)
+            .then(resp => {
+                if (resp.members.length === 0) {
+                    setMembers(null)
+                }else{
+                    const memberList = resp.members
+                    setMembers(profiles.find(res => res.id === memberList.toString()))
+                }
+                
+            })
+            .catch(err => console.log(err))
+            setTeamProfile(teamProfile)
+            setleaderProfile(leaderProfile)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [teams])
 
@@ -53,79 +67,75 @@ const TeamPage = () => {
 
     const cancelEdit = () => {
         setDescription('')
-        setCountry('')
-        setFavGame('')
+        setGameChoosed('')
         setEdit(!edit)
     }
 
     const handleDescription = (e) => {
         setDescription(e.target.value)
     }
-    const handleCountry = (e) => {
-        setCountry(e.target.value)
-    }
-    const handlefavGame = (e) => {
-        setFavGame(e.target.value)
+  
+    const handleGameChoosed = (e) => {
+        setGameChoosed(e.target.value)
     }
 
     const NewPf = () => {
-        if(description && country && favGame){
+        if(description && gameChoosed){
             let newPf ={
                 description: description,
-                country: country,
-                favGame: favGame
+                gameChoosed:gameChoosed,
             }
             return {newPf}
-        }else if (description && favGame) {
-            let newPf ={
-                description: description,
-                favGame: favGame
-            }
-            return {newPf}
-        }else if (country && favGame){
-            let newPf ={
-                country: country,
-                favGame: favGame
-            }
-            return {newPf}
-        }else if (description && country){
-            let newPf ={
-                description: description,
-                country: country
-               
-            }
-            return {newPf}
-        }else if (!country && !favGame) {
+        }else if (!gameChoosed) {
             let newPf ={
                 description: description
             }
             return {newPf}
-        }else if (!description && !country){
+        }else if (!description){
             let newPf ={
-                favGame: favGame   
-            }
-            return {newPf}
-        }else if(!description && !favGame){
-            let newPf ={
-                country: country 
+                gameChoosed: gameChoosed   
             }
             return {newPf}
         }
     }
 
     const updateProfile = async (e) => {
-        const userId = teamProfile.profile.map(res => res.id)
-        await TeamService.update(
-            userId,
+        const teamId = teamProfile.id
+        console.log(NewPf().newPf)
+        await TeamService.updateTeam(
+            teamId,
             NewPf().newPf
         ).then(res => handleEdit())
         .catch(error =>(console.error(error)))
     }
 
+    const updateAvatar = async (e) => {
+        const avatarId = teamProfile.teamAvatar.map(res => res.id)
+        await TeamService.updateAvatar(
+            avatarId,
+            avatar
+        ).then(res => {
+            setAvatar(res)
+            setAvatarEdit(!avatar)
+        })
+        .catch(error =>(console.error(error)))
+    }
+
+    function processAvatarImage(e){
+        setAvatarEdit(!avatarEdit)
+        const imageFile = e.target.files[0];
+        const imageUrl = URL.createObjectURL(e.target.files[0]);
+        setAvatarPrev(imageUrl)
+        setAvatar(imageFile)
+    }
+
+    const cancelUpdateAvatar = () => {
+        setAvatarPrev(!avatarPrev)
+        setAvatarEdit(!avatarEdit)
+    }
 
     const updateBannerImg = async (e) => {
-        const bannerId = teamProfile.bannerImg.map(res => res.id)
-        console.log(bannerId)
+        const bannerId = teamProfile.teamBannerImg.map(res => res.id)
         await TeamService.updateBannerImg(
             bannerId,
             bannerImg
@@ -151,6 +161,18 @@ const TeamPage = () => {
         setBannerEdit(!bannerEdit)
     }
 
+    const addMember = () => {
+        const teamId = teamProfile.id
+        const newMember = profiles.find(res => res.username === userActive)
+       
+        console.log(newMember.id, teamId)
+        TeamService.newMember(teamId, newMember.id)
+        .then(res => {
+            console.log(res);
+            window.location.reload()
+        })
+    }
+
     return (
         <div className="bg-white text-dark py-5">
             
@@ -174,8 +196,8 @@ const TeamPage = () => {
                                 </div>
                                 :
                                 <>
-                                {teamProfile && userActive === teamProfile.username &&
-                                    <label class="btn btn-white custom-file-upload ">
+                                {teamProfile && userActive === teamProfile.teamLeader.username &&
+                                    <label class="btn btn-light custom-file-upload ">
                                         <input onChange={processBannerImage} type="file" name="bannerImg"/>
                                         <GoDeviceCamera/> Cambiar Banner
                                     </label>
@@ -190,7 +212,7 @@ const TeamPage = () => {
                                 :
                             <img src={avatarPrev} alt="" className="avatar-profile-user rounded-circle border border-5 border-dark" />
                         }
-                        <h1>{!teamProfile ? '' : teamProfile.username}</h1>
+                        <h1>{!teamProfile ? '' : teamProfile.teamName.replace("-"," ")}</h1>
                             {avatarEdit ?
                                 <div className="d-flex justify-content-center">
                                     <button onClick={cancelUpdateAvatar} className="btn btn-danger" type="none" name="bannerImg">
@@ -202,31 +224,30 @@ const TeamPage = () => {
                                 </div>
                                         :
                                         <>
-                                        {teamProfile && userActive === teamProfile.username &&             
-                                            <label class="btn btn-light custom-file-upload ">
+                                        {teamProfile && userActive === teamProfile.teamLeader.username &&             
+                                            <label class="btn btn-dark custom-file-upload ">
                                                 <input onChange={(e) => processAvatarImage(e)} type="file" name="avatar"/>
-                                                <GoDeviceCamera/> Cambiar Avatar
+                                                <GoDeviceCamera/> Cambiar Icono
                                             </label>
                                         }
                                         </>
                             }
-
-                            {/* <div className="net-card card bg-dark m-4">
-                                <h2 className="p-3">Mis Redes</h2>
-                                <div className="net-fields p-3">
-                                    <button className="btn btn-dark"><AiOutlinePlus/>Añade una nueva red social</button>
-                                </div>
-                            </div> */}
                     </div>
                     <div className="col">
                         <div className="profile-card bg-white mt-3">
                                 <div className="card-content pt-3 pb-5 ps-3 pe-3">
-                                    <div className="d-flex card-title-description">
-                                       <h4 className="flex-grow-1 bd-highlight ">Líder del equipo: </h4>
+                                    <div className="d-flex align-items-center card-title-description">
+                                       <h4 className="bd-highlight ">Líder del equipo: </h4>
+                                            <div className="flex-grow-1 ms-3">
+                                                <div className="d-flex align-items-center">
+                                                    <img src={!leaderProfile ? '' : leaderProfile.avatar.map(res => res.avatar)} alt="" className="leader-img" />
+                                                    <p className="m-0 ms-2">{!teamProfile ? '' : teamProfile.teamLeader.username}</p>
+                                                </div>
+                                            </div>
                                        {!edit ? 
                                             <>
-                                            {teamProfile && userActive === teamProfile.username &&
-                                                <button onClick={handleEdit} className="btn text-white fs-4">Editar<AiOutlineEdit/></button>
+                                            {teamProfile && userActive === teamProfile.teamLeader.username &&
+                                                <button onClick={handleEdit} className="btn text-dark fs-4">Editar<AiOutlineEdit/></button>
                                             }
                                             </>
                                                 :
@@ -236,59 +257,18 @@ const TeamPage = () => {
                                             </>
                                         }
                                     </div>
-                                    <div className="card-text">
-                                        {!edit ?  
-                                        <div>
-                                            {!description ? 
-                                                <p>{!teamProfile ? '' : teamProfile.teamLeader.username}</p>
-                                                :                                                
-                                                <p>{description}</p>
-                                            }
-                                        </div>                       
-                                            :
-                                            <div className="description-field">
-                                                <textarea id="country-select" className="form-control text-white" defaultValue={teamProfile.profile.map(res=>res.description)} onChange={handleDescription}/>
-                                            </div>
-                                            
-                                        }
-                                    </div>
-                                    <div className="user-country">
+                                    <div className="game-focus">
                                         <p className="fw-bold">Videojuego enfoque: </p> 
                                         {!edit ?
                                         <div>
-                                            {!country ? 
+                                            {!gameChoosed ? 
                                                 <p className="card-text">{!teamProfile ? '' : teamProfile.gameChoosed}</p>
                                                 :                                                
-                                                <p className="card-text">{country}</p>
+                                                <p className="card-text">{gameChoosed}</p>
                                             }
                                         </div>  
                                             :
-                                                <select value={country} onChange={handleCountry} name="countries" id="country-select" className="form-select text-white">
-                                                    <option value="🇦🇷 Argentina">🇦🇷 Argentina</option>
-                                                    <option value="🇧🇴 Bolivia">🇧🇴 Bolivia</option>
-                                                    <option value="🇨🇴 Colombia">🇨🇴 Colombia</option>
-                                                    <option value="🇨🇱 Chile">🇨🇱 Chile</option>
-                                                    <option value="🇪🇨 Ecuador">🇪🇨 Ecuador</option>
-                                                    <option value="🇲🇽 México">🇲🇽 México</option>
-                                                    <option value="🇵🇾 Paraguay">🇵🇾 Paraguay</option>
-                                                    <option value="🇵🇪 Perú">🇵🇪 Perú</option>
-                                                    <option value="🇺🇾 Uruguay">🇺🇾 Uruguay</option>
-                                                    <option value="🇻🇪 Venezuela">🇻🇪 Venezuela</option>
-                                                </select>
-                                        }
-                                    </div>
-                                    <div className="favorite-game pt-4">
-                                        <p className="fw-bold">Descripción</p> 
-                                        {!edit ?
-                                        <div>
-                                            {!favGame ? 
-                                                <p className="card-text">{!teamProfile ? '' : teamProfile.description}</p>
-                                                :                                                
-                                                <p className="card-text">{favGame}</p>
-                                            }
-                                        </div> 
-                                                :
-                                            <select value={favGame} onChange={handlefavGame} name="countries" id="favGame-select" className="form-select text-white">
+                                            <select value={gameChoosed} onChange={handleGameChoosed} name="countries" id="gameFocus-select" className="form-select text-dark">
                                                 <option value="COD: Mobile">COD: Mobile</option>
                                                 <option value="COD: Warzone">COD: Warzone</option>
                                                 <option value="CS:GO">CS:GO</option>
@@ -307,43 +287,53 @@ const TeamPage = () => {
                                             </select>
                                         }
                                     </div>
+                                    <div className="favorite-game pt-4">
+                                        <p className="fw-bold">Descripción</p> 
+                                        {!edit ?
+                                        <div>
+                                            {!description ? 
+                                                <p className="card-text">{!teamProfile ? '' : teamProfile.description}</p>
+                                                :                                                
+                                                <p className="card-text">{description}</p>
+                                            }
+                                        </div> 
+                                                :
+                                                <div className="description-field">
+                                                    <textarea id="teamDescription-text" className="form-control text-dark" defaultValue={teamProfile.description} onChange={handleDescription}/>
+                                                </div>
+                                        }
+                                    </div>
                                 </div>
                         </div>
                         <div className="profile-card mt-2">
-                            <div className="card-content pt-3 pb-5 ps-3 pe-3">
-                                <ul class="nav nav-pills">
-                                    <li class="nav-item">
-                                        <h3><AiOutlinePlus size={40}/>Unirme a este equipo</h3>
-                                    </li>
-                                </ul>
-                                {teamProfile && userActive === teamProfile.username &&
-                                    <div className="card p-3 bg-dark">
-                                        <button className="btn btn-dark p-0">
-                                            <div className="row">
-                                                <div className="col-3 d-flex align-items-center">
-                                                    <div className="newMatch-user-card d-flex align-items-center justify-content-center">
-                                                        <AiOutlinePlus size={70}/>
-                                                    </div>
-                                                </div>
-                                                <div className="col-9 px-0 d-flex align-items-center">
-                                                        <div className="newMatch-title">    
-                                                            <h4>¡Crea una nuevo encuentro y busca amigos para jugar!</h4>
-                                                        </div>    
-                                                </div>
-                                            </div>
-                                        </button>
-                                    </div> 
-                                }
-                            {/* {!teamProfile ? 
-                                <div>
-
+                            <div className="card-content pt-3 pb-1 ps-3 pe-3">
+                                <div className="d-flex align-items-center">
+                                        <h3 className="flex-grow-1 m-0">Miembros</h3>
+                                        <button className="btn" onClick={openModal}><h4 className="m-0"><AiOutlinePlus size={30}/>Unirme a este equipo</h4></button>
                                 </div>
-                                :
-                                teamProfile.matches.map(res => 
-                                    <UserMatchCard key={res.id} date={res.date} title={res.title} gameChoosed={res.gameChoosed} descrip={res.description}/>
-                                    )           
-                            } */}
+                                <Modal isOpen={isOpenModal} closeModal={closeModal}>
+                                    <div className="d-inline-block">
+                                        <h3 className="text-white pt-5">¿Seguro que deseas unirte a este equipo?</h3>
+                                        <div className="form-outline py-4 d-flex justify-content-center">
+                                            <button onClick={closeModal} className="btn btn-danger">Cancelar</button>
+                                            <button onClick={addMember} className="btn btn-success ms-2">Unirme</button>
+                                        </div>
+                                    </div>
+                                </Modal>
                             </div>
+                            {!members ?
+                                 <div className="card p-3">
+                                     <div className="d-flex justify-content-center align-items-center">
+                                        <h4 className="text-muted">Este equipo no tiene miembros aún... ¡Sé el primero en unirte!</h4>
+                                     </div>
+                                 </div>
+                                    :
+                                   <div className="card p-3">
+                                       <div className="d-flex align-items-center">
+                                            <h4>{members.username}</h4>
+                                       </div>
+                                   </div>
+                                }   
                         </div>
                     </div>
                 </div>
