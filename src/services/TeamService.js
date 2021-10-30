@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/'
+const baseUrl = 'https://sheltered-depths-45281.herokuapp.com/api'
 
 let defaultAvatar = {
     teamAvatar: "https://res.cloudinary.com/origaming-media/image/upload/v1635464791/user.png"
