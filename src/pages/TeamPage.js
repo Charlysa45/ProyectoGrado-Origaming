@@ -9,6 +9,7 @@ import { useTeams } from '../components/hooks/useTeams'
 import TeamService from '../services/TeamService'
 import './TeamPage.css'
 import { useModal } from '../components/hooks/useModal'
+import { Link } from 'react-router-dom'
 
 const TeamPage = () => {
     const {avatarEdit, setAvatarEdit} = useContext(AvatarContext)
@@ -27,8 +28,8 @@ const TeamPage = () => {
         }
     }, [])
 
-    const {teams} = useTeams()
     const {profiles} = useProfiles()
+    const {teams} = useTeams()
     const {TeamName} = useParams()
     
     const [teamProfile, setTeamProfile] = useState(null)
@@ -43,23 +44,30 @@ const TeamPage = () => {
     const [members, setMembers] = useState([])
 
     useEffect(() => {
-            const teamProfile = teams.find(res => res.teamName === TeamName)
-            const leaderProfile = profiles.find(res => res.username === teamProfile.teamLeader.username)
-            TeamService.getMembers(teamProfile && teamProfile.id)
+        const teamProfile = teams.find(res => res.teamName === TeamName)
+        console.log(teamProfile)
+        if (teamProfile) {
+            TeamService.getMembers(teamProfile.id)
             .then(resp => {
                 if (resp.members.length === 0) {
                     setMembers(null)
                 }else{
-                    const memberList = resp.members
-                    setMembers(profiles.find(res => res.id === memberList.toString()))
+                    const membersId = resp.members
+                    console.log(profiles)
+                    const memberList = membersId.map(res => profiles.find(resp => resp.id === res))
+                    setMembers(memberList) 
                 }
-                
+                setTeamProfile(teamProfile)
             })
-            .catch(err => console.log(err))
-            setTeamProfile(teamProfile)
-            setleaderProfile(leaderProfile)
+            .catch(err => console.error(err))
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [teams])
+
+    useEffect(() => {
+        const leaderProfile = profiles.find(res => res.username === teamProfile.teamLeader.username)
+        setleaderProfile(leaderProfile)
+    }, [teamProfile])
 
     const handleEdit = () => {
         setEdit(!edit)
@@ -101,7 +109,6 @@ const TeamPage = () => {
 
     const updateProfile = async (e) => {
         const teamId = teamProfile.id
-        console.log(NewPf().newPf)
         await TeamService.updateTeam(
             teamId,
             NewPf().newPf
@@ -165,10 +172,8 @@ const TeamPage = () => {
         const teamId = teamProfile.id
         const newMember = profiles.find(res => res.username === userActive)
        
-        console.log(newMember.id, teamId)
         TeamService.newMember(teamId, newMember.id)
         .then(res => {
-            console.log(res);
             window.location.reload()
         })
     }
@@ -177,6 +182,13 @@ const TeamPage = () => {
         <div className="bg-white text-dark py-5">
             
             <div className="container">
+            <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><Link to="/" style={{textDecoration:'none', color:'purple'}}>Inicio</Link></li>
+                        <li class="breadcrumb-item"><Link to="/oriteams" style={{textDecoration:'none', color:'purple'}}>Oriteams</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">{TeamName}</li>
+                    </ol>
+            </nav>
                 <div className="banner-field">
                     {!bannerPrev ?
                         <img src={!teamProfile ? '' : teamProfile.teamBannerImg.map(res => res.teamBannerImg)} alt="" className="banner-img"/>
@@ -328,11 +340,16 @@ const TeamPage = () => {
                                      </div>
                                  </div>
                                     :
-                                   <div className="card p-3">
-                                       <div className="d-flex align-items-center">
-                                            <h4>{members.username}</h4>
-                                       </div>
-                                   </div>
+                                    members.map(res =>
+                                        <div className="card p-3">
+                                            <div className="d-flex align-items-center">
+                                                <img src={res && res.avatar.map(resp => resp.avatar)} alt="" className="leader-img"/>
+                                                <Link to={res && `/perfil/${res.username}`} className="ms-2" style={{textDecoration: 'none', color: 'purple'}}>
+                                                    <p className="m-0">{!res ? '' : res.username}</p>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        )
                                 }   
                         </div>
                     </div>

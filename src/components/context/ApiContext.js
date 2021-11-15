@@ -20,7 +20,6 @@ const ApiProvider = ({children}) => {
         })
         GameService.getGame()
         .then(res => {
-            console.log(res)
             setAllGames(res)
         })
         ProfileService.getProfile()

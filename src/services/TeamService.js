@@ -47,7 +47,7 @@ const newTeamAvatar = async({token}, teamId) => {
         }
     }
     const request = axios.post(`${baseUrl}/teamAvatars`, {...defaultAvatar, teamId}, config)
-    return request.then(res => res.data).catch(err => console.log(err))
+    return request.then(res => res.data).catch(err => console.error(err))
 }
 
 const newTeamBanner = async({token}, teamId) => {
@@ -57,7 +57,7 @@ const newTeamBanner = async({token}, teamId) => {
         }
     }
     const request = axios.post(`${baseUrl}/teamBanners`, {...defaultBanner, teamId}, config)
-    return request.then(res => res.data).catch(err => console.log(err))
+    return request.then(res => res.data).catch(err => console.error(err))
 }
 
 const updateTeam = async (id, newObject) => {

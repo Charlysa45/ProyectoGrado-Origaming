@@ -32,7 +32,6 @@ function Navbar() {
               return res;
           }
       })
-      console.log(resultsUsers)
       setResultados(resultsUsers)
     }
 

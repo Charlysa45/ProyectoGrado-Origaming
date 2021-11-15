@@ -33,14 +33,12 @@ const MatchPage = () => {
         GameService.getSingleMatch(MatchId)
         .then(res => {
             setMatch(res)
-            console.log(res.user)
             GameService.getAvatar(res.user.avatar)
             .then(resp => setAvatar(resp))
         })
     }, [])
     
     useEffect(() => {
-        console.log(MatchId)
         if (auth) {
             let matchInfo = {
                 username: auth.username,
@@ -54,7 +52,6 @@ const MatchPage = () => {
 
     useEffect(() => {
         socketio.on('mensajes', msg => {
-            console.log(msg)
             setMensajes([...mensajes, msg])
         })
         return () => {socketio.off()}

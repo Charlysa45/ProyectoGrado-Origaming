@@ -37,7 +37,7 @@ const GamePage = () => {
                 }
                 
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
 
             processTitle(Game.title)
         })
@@ -107,10 +107,7 @@ const GamePage = () => {
                         
                             <ul className="nav nav-tabs">
                                 <li class="nav-item">
-                                    <Link to="/" className="nav-link active">Encuentros enlistados</Link>
-                                </li>
-                                <li class="nav-item">
-                                    <Link to="/organizers" className="nav-link">Organizadores</Link>
+                                    <p to="/" className="nav-link active">Encuentros enlistados</p>
                                 </li>
                             </ul>
                             <div className="card p-3">

@@ -8,7 +8,7 @@ import ApiContext from '../components/context/ApiContext'
 
 function Home() {
 
-    const {allMatches, allGames} = useContext(ApiContext)
+    const {allMatches, allGames, allTeams} = useContext(ApiContext)
     
     return (
         <div className="App bg-dark bg-gradient text-light">
@@ -63,14 +63,14 @@ function Home() {
             <section className="cards pt-3 pb-5">
             <div className="container">
                 <div className="row">
-                    <div>
+                    <div className="col-md-9">
                         <div className="title-spacing">
                             <div className="section-title-games">
                                 <h1 className="ms-3 me-3 mt-1 mb-2 fs-2"><Link to="/games" className="link">Encuentros</Link></h1>
                             </div>
                         </div>
                     <hr className="barra-games rounded-pill"/>
-                        <div className="row row-cols-4 games-field">
+                        <div className="row row-cols-3 games-field">
                             {allGames &&
                                 allGames.map(res => 
                                     <div key={res.id} className="col mb-4">  
@@ -88,100 +88,36 @@ function Home() {
                     </div>
 
 
-                    {/* <div className="col-md-3">
+                    <div className="col-md-3">
                     <div className="title-spacing">
                             <div className="section-title-teams">
                                 <h1 className="ms-3 me-3 mt-1 mb-2 fs-2"><Link to="/Oriteams" className="link">OriTeams</Link></h1>
                             </div>
                         </div>
                         <hr className="barra-teams rounded-pill"/>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item bg-dark text-light">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                <img src={Imagenes.LogoG2} className="list-img" alt="..."/>
-                                </div>
-                                <div className="col-md-7">
-                                    <div class="fw-bold">G2 Esports</div>
-                                    <p className="lh-sm">
-                                    League of Legends
-                                    </p>
-                                    <small className="calendar-icon mb-1 text-muted">Sobre este OriTeam</small>
-                                </div>
-                            </div>
-                            </li>
-                            <li class="list-group-item bg-dark text-light">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                <img src={Imagenes.LogoBDS} className="list-img rounded-circle" alt="..."/>
-                                </div>
-                                <div className="col-md-7">
-                                    <div class="fw-bold">BDS Esports</div>
-                                    <p className="lh-sm">
-                                    Rocket League
-                                    </p>
-                                    <small className="calendar-icon mb-1 text-muted">Sobre este OriTeam</small>
-                                </div>
-                            </div>
-                            </li>
-                            <li class="list-group-item bg-dark text-light">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                <img src={Imagenes.LogoFnatic} className="list-img rounded-circle" alt="..."/>
-                                </div>
-                                <div className="col-md-7">
-                                    <div class="fw-bold">Team Fnatic</div>
-                                    <p className="lh-sm">
-                                    Valorant
-                                    </p>
-                                    <small className="calendar-icon mb-1 text-muted">Sobre este OriTeam</small>
-                                </div>
-                            </div>
-                            </li>
-                            <li class="list-group-item bg-dark text-light">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                <img src={Imagenes.LogoQueso} className="list-img rounded-circle" alt="..."/>
-                                </div>
-                                <div className="col-md-7">
-                                    <div class="fw-bold">Team Queso</div>
-                                    <p className="lh-sm">
-                                    Rocket League
-                                    </p>
-                                    <small className="calendar-icon mb-1 text-muted">Sobre este OriTeam</small>
-                                </div>
-                            </div>
-                            </li>
-                            <li class="list-group-item bg-dark text-light">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                <img src={Imagenes.LogoTSM} className="list-img rounded-circle" alt="..."/>
-                                </div>
-                                <div className="col-md-7">
-                                    <div class="fw-bold">Team SoloMid</div>
-                                    <p className="lh-sm">
-                                    Fortnite
-                                    </p>
-                                    <small className="calendar-icon mb-1 text-muted">Sobre este OriTeam</small>
-                                </div>
-                            </div>
-                            </li>
-                            <li class="list-group-item bg-dark text-light">
-                            <div className="row align-items-center">
-                                <div className="col-md-5">
-                                <img src={Imagenes.LogoVitality} className="list-img rounded-circle" alt="..."/>
-                                </div>
-                                <div className="col-md-7">
-                                    <div class="fw-bold">Team Vitality</div>
-                                    <p className="lh-sm">
-                                    CS:GO
-                                    </p>
-                                    <small className="calendar-icon mb-1 text-muted">Sobre este OriTeam</small>
-                                </div>
-                            </div>
-                            </li>
+                        <ul class="list-group home-teams list-group-flush">
+                            {allTeams &&
+                                allTeams.map(res => 
+                                    <li class="list-group-item team-bg bg-dark text-light">
+                                    <div className="row align-items-center">
+                                        <div className="col-md-5">
+                                        <img src={res.teamAvatar.map(res => res.teamAvatar)} className="list-img" alt="..."/>
+                                        </div>
+                                        <div className="col-md-7">
+                                            <div class="fw-bold">
+                                                <Link to={`/oriteams/${res.teamName}`} style={{textDecoration: 'none', color: 'white'}}>{res.teamName}</Link>
+                                            </div>
+                                            <p className="lh-sm">
+                                            <Link to={`/games/${res.gameChoosed}`} style={{textDecoration: 'none', color: 'aqua'}}>{res.gameChoosed}</Link>
+                                            </p>
+                                            <small className="calendar-icon mb-1 text-muted">Líder: <Link to={`/perfil/${res.teamLeader.username}`} style={{textDecoration: 'none', color: 'gray'}}>{res.teamLeader.username}</Link></small>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    )
+                            }
                         </ul>
-                    </div> */}
+                    </div>
                 </div>
             </div>
             </section>

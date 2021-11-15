@@ -43,6 +43,13 @@ body{
     border: 3px solid rgba(152,11,122,1);
 }
 
+.home-teams{
+  min-height: 950px;
+  max-height: 950px;
+  overflow-y: scroll;
+  border: 3px solid #01a1bd;;
+}
+
 .section-title-games{
   background-color: #003083;
   display: inline-block;
@@ -111,14 +118,13 @@ body{
 }
 
 .event-title-games{
-    margin-left: -.4rem;
-    
-    background-color: #003083;
-    display: inline-block;
-    vertical-align: top;
-    padding: 0 .4rem;
-    border-radius: 0 .5rem .5rem 0;
-    
+  margin-left: -.4rem;
+  
+  background-color: #003083;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 .4rem;
+  border-radius: 0 .5rem .5rem 0;
 }
 
 .games-field{

@@ -46,7 +46,6 @@ const Profile = () => {
     useEffect(() => {
         if (profiles) {
             const usrProfile = profiles.find(res => res.username === userInfo)
-            console.log(usrProfile)
            setUserProfile(usrProfile)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,7 +129,6 @@ const Profile = () => {
 
     const updateBannerImg = async (e) => {
         const bannerId = userProfile.bannerImg.map(res => res.id)
-        console.log(bannerId)
         await ProfileService.updateBannerImg(
             bannerId,
             bannerImg
@@ -353,7 +351,7 @@ const Profile = () => {
                                 </div>
                                 :
                                 userProfile.matches.map(res => 
-                                    <UserMatchCard key={res.id} date={res.date} title={res.title} gameChoosed={res.gameChoosed} descrip={res.description}/>
+                                    <UserMatchCard key={res.id} matchId={res.id} date={res.date} title={res.title} gameChoosed={res.gameChoosed} descrip={res.description}/>
                                     )           
                             }
                             </div>

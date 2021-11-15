@@ -9,7 +9,7 @@ let borderStyles ={
     'border-radius':'25px'
 }
 
-const UserMatchCard = ({date, title, gameChoosed, descrip}) => {
+const UserMatchCard = ({matchId, date, title, gameChoosed, descrip}) => {
 
     let linkStyles = {
         'text-decoration':'none'
@@ -72,7 +72,7 @@ const UserMatchCard = ({date, title, gameChoosed, descrip}) => {
                     </div>
                     <div className="col-9 px-0">
                         <div className="card-title text-white">
-                            <h5 className="m-0">{title}</h5>  
+                            <h5 className="m-0"><Link to={`/match/${matchId}`} style={{textDecoration: 'none', color: 'white'}}>{title}</Link></h5>  
                             <small>Videojuego: <Link to={`/games/${gameChoosed}`} style={linkStyles}>{gameTitle}</Link></small>
                         </div>    
                         <div className="card-match-content">

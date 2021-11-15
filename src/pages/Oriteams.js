@@ -16,10 +16,16 @@ function Oriteams() {
     const[isOpenModal, openModal, closeModal] = useModal(false);
     const {auth, changeForm, handleChangeForm} = useContext(AuthContext)
     const {allTeams} = useContext(ApiContext)
-    console.log(allTeams);
+
     return (
-        <div className="App bg-light" style={{paddingTop: '5rem', paddingBottom: '5rem'}}>
+        <div className="App bg-light" style={{paddingTop: '3rem', paddingBottom: '5rem'}}>
             <div className="container py-3">
+            <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><Link to="/" style={{textDecoration:'none', color:'purple'}}>Inicio</Link></li>
+                        <li class="breadcrumb-item active" aria-current="page">OriTeams</li>
+                    </ol>
+                </nav>
                 <h1 className="title-page">OriTeams</h1>
                 <div className="card p-3 mb-2 bg-white">
                     <button onClick={openModal} className="btn btn-light p-0">
@@ -74,7 +80,7 @@ function Oriteams() {
                 <div className="teamcards">
                     <div className="row row-cols-3">
                     {!allTeams ? '' : allTeams.map(res => 
-                        <div key={res.id} className="col">
+                        <div key={res.id} className="col mb-4">
                             <div className="team-card card">
                                 <img src={res.teamBannerImg.map(res => res.teamBannerImg)} alt="" className="team-banner-card"/>
                                 <div className="card-img-overlay text-light">

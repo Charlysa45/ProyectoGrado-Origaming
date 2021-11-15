@@ -13,7 +13,6 @@ const MatchCard = ({date, title, descrip, id, matchId, gameChoosed, theme}) => {
 
     const {profiles} = useProfiles()
 
-    console.log(id)
     const user = profiles.find(res => res.id === id)
 
     useEffect(() => {

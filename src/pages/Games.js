@@ -8,7 +8,6 @@ function Games() {
 
     const {allGames} = useContext(ApiContext)
     let NoMatches = allGames.map(res => res.matches.length)
-    console.log(NoMatches)
 
     return (
         <div className="App bg-light py-5">
